@@ -6,7 +6,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-amber-800/50 p-4 relative z-50">
+    <nav className="bg-amber-700/50 p-4 relative z-50">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         {/* Logo - Toujours visible */}
         <div className="shrink-0">
