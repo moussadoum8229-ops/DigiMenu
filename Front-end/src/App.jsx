@@ -6,6 +6,7 @@ import Commande from "./Components/Commande"
 import Cuisine from "./Components/Cuisine"
 import { CartProvider } from './Components/CartContext'
 import Form from './Components/Form'
+import Admin from './Components/Admin'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/commande" element={<Commande />} />
           <Route path="/cuisine" element={<Cuisine />} /> 
           <Route path="/form" element={<Form />} /> 
+          <Route path="/Admin" element={<Admin />} /> 
         </Routes>
       </Router>
     </CartProvider>

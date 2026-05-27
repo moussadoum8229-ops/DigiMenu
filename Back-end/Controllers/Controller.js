@@ -4,21 +4,33 @@ const Auth = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json({ message: "les données saisies sont fausses, cuisinier inconnu" });
+        return res.status(400).json({ message: "Les données saisies sont incorrectes." });
     }
 
     try {
-        // Recherche dans la table cuisine si le nom d'utilisateur et le mot de passe correspondent
-        const [rows] = await pool.query(
+        // 1. Recherche dans la table cuisine
+        const [cuisineRows] = await pool.query(
             "SELECT * FROM cuisine WHERE Username = ? AND password = ?",
             [username, password]
         );
 
-        if (rows.length > 0) {
-            return res.json({ message: "success" });
-        } else {
-            return res.status(401).json({ message: "les données saisies sont fausses, cuisinier inconnu" });
+        if (cuisineRows.length > 0) {
+            return res.json({ message: "success", role: "cuisine" });
         }
+
+        // 2. Recherche dans la table admin
+        const [adminRows] = await pool.query(
+            "SELECT * FROM admin WHERE Username = ? AND Password = ?",
+            [username, password]
+        );
+
+        if (adminRows.length > 0) {
+            return res.json({ message: "success", role: "admin" });
+        }
+
+        // Si aucun n'est trouvé
+        return res.status(401).json({ message: "Nom d'utilisateur ou mot de passe incorrect." });
+
     } catch (error) {
         console.error("Erreur d'authentification :", error);
         return res.status(500).json({ message: "Erreur serveur" });

@@ -20,14 +20,18 @@ export default function Form() {
         password,
       });
       if (response.data.message === 'success') {
-        navigate('/cuisine')
+        if (response.data.role === 'admin') {
+          navigate('/Admin')
+        } else {
+          navigate('/cuisine')
+        }
       }
     }
     catch(error){
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
       } else {
-        setError("les données saisies sont fausses, cuisinier inconnu");
+        setError("les données saisies sont fausses, utilisateur inconnu");
       }
     } finally {
       setIsLoading(false);
