@@ -7,7 +7,9 @@ dotenv.config();
 // Connexion à la base de données
 require("./Databases/Data");
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5174",
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {

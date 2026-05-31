@@ -18,23 +18,33 @@ async function testConnection() {
     try {
         const connection = await pool.getConnection();
         console.log('✅ Connexion à la base de données MySQL réussie (XAMPP) !');
-        
-        // Création automatique de la table orders si elle n'existe pas
-        const createTableQuery = `
-            CREATE TABLE IF NOT EXISTS \`orders\` (
-                \`id\` INT AUTO_INCREMENT PRIMARY KEY,
-                \`order_type\` VARCHAR(50) NOT NULL,
-                \`table_number\` VARCHAR(50) DEFAULT NULL,
-                \`delivery_address\` TEXT DEFAULT NULL,
-                \`phone_number\` VARCHAR(50) DEFAULT NULL,
-                \`items\` LONGTEXT NOT NULL,
-                \`total\` INT NOT NULL,
-                \`status\` VARCHAR(50) DEFAULT 'en_attente',
-                \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        // Création automatique de la table Commandes si elle n'existe pas
+        const createCommandesTableQuery = `
+            CREATE TABLE IF NOT EXISTS \`Commandes\` (
+                \`id_commande\` INT AUTO_INCREMENT PRIMARY KEY,
+                \`type_commande\` VARCHAR(20) NOT NULL,
+                \`numero_table\` INT DEFAULT NULL,
+                \`montant_total\` DECIMAL(10,2) NOT NULL,
+                \`statut_commande\` VARCHAR(20) DEFAULT 'en_attente',
+                \`date_commande\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         `;
-        await connection.query(createTableQuery);
-        console.log('✅ Table "orders" vérifiée / créée avec succès.');
+
+        // Création automatique de la table Details_Commande si elle n'existe pas
+        const createDetailsTableQuery = `
+            CREATE TABLE IF NOT EXISTS \`Details_Commande\` (
+                \`id_detail\` INT AUTO_INCREMENT PRIMARY KEY,
+                \`id_commande\` INT NOT NULL,
+                \`nom_produit\` VARCHAR(100) NOT NULL,
+                \`quantite\` INT NOT NULL,
+                \`prix_unitaire\` DECIMAL(10,2) NOT NULL,
+                FOREIGN KEY (\`id_commande\`) REFERENCES \`Commandes\`(\`id_commande\`) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        `;
+        
+        await connection.query(createCommandesTableQuery);
+        await connection.query(createDetailsTableQuery);
+        console.log('✅ Tables "Commandes" et "Details_Commande" vérifiées / créées avec succès.');
         
         connection.release();
     } catch (err) {

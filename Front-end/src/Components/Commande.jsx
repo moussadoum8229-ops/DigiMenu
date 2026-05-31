@@ -30,12 +30,12 @@ export default function Commande() {
     }));
 
     const orderData = {
-      order_type: orderType,
-      table_number: orderType === 'sur_place' ? tableNumber : null,
-      delivery_address: orderType === 'livraison' ? deliveryAddress : null,
-      phone_number: orderType === 'livraison' ? phoneNumber : null,
-      items: itemsData,
-      total: total
+      type_commande: orderType,
+      numero_table: orderType === 'sur_place' ? tableNumber : null,
+      adresse_livraison: orderType === 'livraison' ? deliveryAddress : null,
+      telephone_client: orderType === 'livraison' ? phoneNumber : null,
+      details_commande: itemsData,
+      montant_total: total
     };
 
     try {
