@@ -104,16 +104,371 @@ export default function Menu() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="loader">
-          <img src="/Loader1.svg" alt="loader" width="200" />
+          <img src="/Digiload.svg" alt="loader" width="200" />
         </div>
       </div>
     );
   }
+
+  // Définition dynamique des catégories du menu
+  const menuCategories = [
+    {
+      id: 'hamburger',
+      title: 'Menu Burger',
+      keywords: ["humberger", "cheeseburger", "cheeseberger", "humberger au fromage", "humburger au poisson", "viande hachée", "fromage", "sauce especiale"],
+      items: [
+        {
+          id: "humberger",
+          name: "Humberger",
+          image: "./humberger.jpg",
+          description: "humberger a la viande hachée et au fromage , une sauce especiale.",
+          price: humberger,
+          keywords: ["humberger", "viande hachée et au fromage", "sauce especiale"]
+        },
+        {
+          id: "cheeseberger",
+          name: "cheeseberger",
+          image: "./Cheeseburger.jpg",
+          description: "cheeseburger a la viande hachée et au fromage , une sauce especiale.",
+          price: humberger,
+          keywords: ["cheeseburger", "cheeseberger", "viande hachée et au fromage", "sauce especiale"]
+        },
+        {
+          id: "humberger_au_fromage",
+          name: "humberger au Fromage",
+          image: "./Burger-poulet.jpg",
+          description: "humberger au fromage une sauce especiale.",
+          price: humberger,
+          keywords: ["humberger au fromage", "fromage", "sauce especiale"]
+        },
+        {
+          id: "humburger_au_poisson",
+          name: "humburger au poisson",
+          image: "./Berger-poisson.jpg",
+          description: "humberger au poisson une sauce especiale.",
+          price: "3000",
+          keywords: ["humburger au poisson", "poisson", "sauce especiale"]
+        }
+      ]
+    },
+    {
+      id: 'poulet',
+      title: 'Menu Poulet',
+      keywords: ["poulet", "roti", "panné", "braiser", "dg", "aloko", "frites"],
+      items: [
+        {
+          id: "poulet_roti",
+          name: "Poulet roti",
+          image: "./P-4.jpg",
+          description: "Poulet roti a la sauce especiale et au frites.",
+          price: poulet,
+          keywords: ["poulet roti", "sauce especiale", "frites"]
+        },
+        {
+          id: "poulet_panne",
+          name: "Poulet panné",
+          image: "./P-1.jpg",
+          description: "Poulet panné .",
+          price: poulet,
+          keywords: ["poulet panné", "panné"]
+        },
+        {
+          id: "poulet_braiser",
+          name: "Poulet braiser",
+          image: "./P-2.jpg",
+          description: "Poulet braiser.",
+          price: poulet,
+          keywords: ["poulet braiser", "braiser"]
+        },
+        {
+          id: "poulet_dg",
+          name: "Poulet DG",
+          image: "./P-3.jpg",
+          description: "Poulet DG a l'aloko.",
+          price: poulet,
+          keywords: ["poulet dg", "aloko"]
+        }
+      ]
+    },
+    {
+      id: 'tacos',
+      title: 'Menu Tacos',
+      keywords: ["tacos", "boeuf", "mexicain", "poisson", "vegetarien"],
+      items: [
+        {
+          id: "tacos_boeuf",
+          name: "Tacos Boeuf",
+          image: "./Tacos.jpg",
+          description: "Tacos Boeuf.",
+          price: tacos,
+          keywords: ["tacos boeuf", "boeuf"]
+        },
+        {
+          id: "tacos_mexicain",
+          name: "Tacos Mexicain",
+          image: "./Tacos-poulet.jpg",
+          description: "Tacos Mexicain .",
+          price: tacos,
+          keywords: ["tacos mexicain", "mexicain"]
+        },
+        {
+          id: "tacos_poisson",
+          name: "Tacos Poisson",
+          image: "./Tacos-poisson.jpg",
+          description: "Tacos Poisson.",
+          price: tacos,
+          keywords: ["tacos poisson", "poisson"]
+        },
+        {
+          id: "tacos_vegetarien",
+          name: "Tacos Vegetarien",
+          image: "./Tacos-V.jpg",
+          description: "Tacos  vegetarien.",
+          price: tacos,
+          keywords: ["tacos vegetarien", "vegetarien"]
+        }
+      ]
+    },
+    {
+      id: 'viande',
+      title: 'Menu Viande',
+      keywords: ["viande", "steack", "boeuf", "grillade", "mouton", "côtelettes", "agneau", "boullete"],
+      items: [
+        {
+          id: "steack_de_boeuf",
+          name: "Steack de boeuf",
+          image: "./St-1.jpg",
+          description: "Steack de boeuf.",
+          price: viande,
+          keywords: ["steack de boeuf", "steack"]
+        },
+        {
+          id: "grillade_de_mouton",
+          name: "Grillade de mouton",
+          image: "./St-2.jpg",
+          description: "Grillade de mouton.",
+          price: viande,
+          keywords: ["grillade de mouton", "grillade"]
+        },
+        {
+          id: "cotelettes_d_agneau",
+          name: "Côtelettes d'agneau",
+          image: "./St-3.jpg",
+          description: "Côtelettes d'agneau.",
+          price: viande,
+          keywords: ["côtelettes d'agneau", "côtelettes", "agneau"]
+        },
+        {
+          id: "boullete_de_boeuf",
+          name: "Boullete de boeuf",
+          image: "./St-4.jpg",
+          description: "Boullete de boeuf.",
+          price: viande,
+          keywords: ["boullete de boeuf", "boullete", "boulette"]
+        }
+      ]
+    },
+    {
+      id: 'poisson',
+      title: 'Menu Poisson',
+      keywords: ["poisson", "braisé", "soupe", "boullete", "saumon", "grec"],
+      items: [
+        {
+          id: "poisson_braise",
+          name: "Poisson braisé",
+          image: "./Poisson-braisé.jpg",
+          description: "Poisson braisé.",
+          price: poisson,
+          keywords: ["poisson braisé", "braisé"]
+        },
+        {
+          id: "soupe_de_poisson",
+          name: "Soupe de poisson",
+          image: "./Soupe-de-poisson.jpg",
+          description: "Soupe de poisson.",
+          price: poisson,
+          keywords: ["soupe de poisson", "soupe"]
+        },
+        {
+          id: "boullete_de_poisson",
+          name: "Boullete de poisson",
+          image: "./Boullete-de-poisson.jpg",
+          description: "Boullete de poisson.",
+          price: poisson,
+          keywords: ["boullete de poisson", "boullete", "boulette"]
+        },
+        {
+          id: "saumon_grec",
+          name: "Saumon grec",
+          image: "./saumon-grec.jpg",
+          description: "Saumon grec.",
+          price: poisson,
+          keywords: ["saumon grec", "saumon"]
+        }
+      ]
+    },
+    {
+      id: 'gateau',
+      title: 'Menu Gateau',
+      keywords: ["gateau", "chocolat", "framboise", "fraise", "banane"],
+      items: [
+        {
+          id: "gateau_chocolat",
+          name: "Gateau chocolat",
+          image: "./Gateau-chocolat.jpg",
+          description: "Gateau chocolat.",
+          price: gateau,
+          keywords: ["gateau chocolat", "chocolat"]
+        },
+        {
+          id: "gateau_framboise",
+          name: "Gateau Framboise",
+          image: "./gateau-framboise.jpg",
+          description: "Gateau Framboise.",
+          price: gateau,
+          keywords: ["gateau framboise", "framboise"]
+        },
+        {
+          id: "gateau_fraise",
+          name: "Gateau-fraise",
+          image: "./Gateau-fraise.jpg",
+          description: "Gateau-fraise.",
+          price: gateau,
+          keywords: ["gateau-fraise", "fraise"]
+        },
+        {
+          id: "gateau_a_la_banane",
+          name: "Gateau a la banane",
+          image: "./Gateau-banane.jpg",
+          description: "Gateau a la banane.",
+          price: gateau,
+          keywords: ["gateau a la banane", "banane"]
+        }
+      ]
+    },
+    {
+      id: 'crepe',
+      title: 'Menu Crepes',
+      keywords: ["crepe", "crèpe", "chocolat", "banane", "fraise", "saumon", "grec"],
+      items: [
+        {
+          id: "crepe_au_chocolat",
+          name: "Crèpe au chocolat",
+          image: "./Crepe-chocolat.jpg",
+          description: "Crèpe au chocolat.",
+          price: crepe,
+          keywords: ["crèpe au chocolat", "crepe", "chocolat"]
+        },
+        {
+          id: "crepe_a_la_banane",
+          name: "Crèpe à la banane",
+          image: "./Crepe-banane.jpg",
+          description: "Crèpe à la banane.",
+          price: crepe,
+          keywords: ["crèpe à la banane", "banane"]
+        },
+        {
+          id: "crepe_au_chocolat_fraise",
+          name: "Crèpe au chocolat fraise",
+          image: "./Crepe-chocolat fraise.jpg",
+          description: "Crèpe au chocolat fraise.",
+          price: crepe,
+          keywords: ["crèpe au chocolat fraise", "chocolat", "fraise"]
+        },
+        {
+          id: "saumon_grec_crepe",
+          name: "Saumon grec",
+          image: "./saumon-grec.jpg",
+          description: "Saumon grec.",
+          price: crepe,
+          keywords: ["saumon grec", "saumon"]
+        }
+      ]
+    },
+    {
+      id: 'glaces',
+      title: 'Menu Glaces',
+      keywords: ["glace", "glaces", "chocolat", "fraise", "caramel", "banane"],
+      items: [
+        {
+          id: "glace_chocolat",
+          name: "Glace chocolat",
+          image: "./Glace-chocolat.jpg",
+          description: "Glace chocolat.",
+          price: crepe,
+          keywords: ["glace chocolat", "chocolat"]
+        },
+        {
+          id: "glace_fraise",
+          name: "Glace fraise",
+          image: "./Glace fraise.jpg",
+          description: "Glace fraise.",
+          price: crepe,
+          keywords: ["glace fraise", "fraise"]
+        },
+        {
+          id: "glace_caramel",
+          name: "Glace caramel",
+          image: "./Glace-caramel.jpg",
+          description: "Glace caramel.",
+          price: crepe,
+          keywords: ["glace caramel", "caramel"]
+        },
+        {
+          id: "glace_a_la_banane",
+          name: "Glace a la banane",
+          image: "./Glace-banane.jpg",
+          description: "Glace a la banane.",
+          price: crepe,
+          keywords: ["glace a la banane", "banane"]
+        }
+      ]
+    },
+    {
+      id: 'Boissons',
+      title: 'Menu Boissons',
+      keywords: ["boisson", "boissons", "coca", "cola", "fanta", "sprite", "double", "seven"],
+      items: [
+        {
+          id: "coca_cola",
+          name: "Coca cola",
+          image: "./Coca cola.jpg",
+          description: "Coca cola.",
+          price: crepe,
+          keywords: ["coca cola", "coca", "cola"]
+        },
+        {
+          id: "fanta",
+          name: "Fanta",
+          image: "./Fanta.jpg",
+          description: "Fanta.",
+          price: crepe,
+          keywords: ["fanta"]
+        },
+        {
+          id: "sprite",
+          name: "Sprite",
+          image: "./Sprite.jpg",
+          description: "Sprite.",
+          price: crepe,
+          keywords: ["sprite"]
+        },
+        {
+          id: "double_seven",
+          name: "Double Seven",
+          image: "./Double7.jpg",
+          description: "Double Seven Petit - Moyen - Grand",
+          price: crepe,
+          keywords: ["double seven", "double7"]
+        }
+      ]
+    }
+  ];
+
 
   // Liste de tous les mots clés pour vérifier globalement si aucun plat n'est trouvé
   const allKeywords = [
@@ -253,1130 +608,69 @@ export default function Menu() {
         </div>
       )}
 
-      {/* Menu Hamburger */}
-      {hasResults && ["humberger", "cheeseburger", "cheeseberger", "humberger au fromage", "humburger au poisson", "viande hachée", "fromage", "sauce especiale"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='hamburger' className="ml-15">
-          <div className="mb-8 ml-3 ">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Burger
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
+      {/* Rendu dynamique des sections du Menu */}
+      {hasResults && menuCategories.map((category) => {
+        // Vérifie si la catégorie correspond au terme de recherche
+        const showCategory = category.keywords.some(keyword => 
+          keyword.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        if (!showCategory) return null;
+
+        return (
+          <div 
+            key={category.id} 
+            id={category.id} 
+            className={category.id === 'hamburger' ? 'ml-15' : 'timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'}
+          >
+            <div className="mb-8 ml-3 mt-6">
+              <div className="flex flex-col">
+                <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
+                  <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
+                    {category.title}
+                  </span>
+                </h2>
+                <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-4 gap-4">
+              {category.items.map((item) => {
+                // Vérifie si l'item correspond au terme de recherche
+                const showItem = item.keywords.some(k => 
+                  k.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+
+                if (!showItem) return null;
+
+                return (
+                  <div key={item.id}>
+                    <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+                      <figure>
+                        <img src={item.image} alt={item.name} />
+                      </figure>
+                      <div className="card-body">
+                        <h2 className="card-title">
+                          {item.name}
+                          <div className="badge badge-secondary">NEW</div>
+                        </h2>
+                        <p>{item.description}</p>
+                        <CardActions 
+                          price={item.price} 
+                          itemId={item.id}
+                          name={item.name}
+                          image={item.image}
+                          description={item.description}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Humberger */}
-            {["humberger", "viande hachée et au fromage", "sauce especiale"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./humberger.jpg"
-                      alt="humberger" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Humberger
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>humberger a la viande hachée et au fromage , une sauce especiale.</p>
-                    <CardActions 
-                      price={humberger} 
-                      itemId="humberger"
-                      name="Humberger"
-                      image="./humberger.jpg"
-                      description="humberger a la viande hachée et au fromage , une sauce especiale."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* cheeseburger */}
-            {["cheeseburger", "cheeseberger", "viande hachée et au fromage", "sauce especiale"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Cheeseburger.jpg"
-                      alt="cheeseburger" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      cheeseberger
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>cheeseburger a la viande hachée et au fromage , une sauce especiale.</p>
-                    <CardActions 
-                      price={humberger} 
-                      itemId="cheeseberger"
-                      name="cheeseberger"
-                      image="./Cheeseburger.jpg"
-                      description="cheeseburger a la viande hachée et au fromage , une sauce especiale."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* humberger au Fromage */}
-            {["humberger au fromage", "fromage", "sauce especiale"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Burger-poulet.jpg"
-                      alt="Shoes" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      humberger au Fromage
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>humberger au fromage une sauce especiale.</p>
-                    <CardActions 
-                      price={humberger} 
-                      itemId="humberger_au_fromage"
-                      name="humberger au Fromage"
-                      image="./Burger-poulet.jpg"
-                      description="humberger au fromage une sauce especiale."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* humburger au poisson */}
-            {["humburger au poisson", "poisson", "sauce especiale"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Berger-poisson.jpg"
-                      alt="Shoes" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      humburger au poisson
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>humberger au poisson une sauce especiale.</p>
-                    <CardActions 
-                      price={"3000"} 
-                      itemId="humburger_au_poisson"
-                      name="humburger au poisson"
-                      image="./Berger-poisson.jpg"
-                      description="humberger au poisson une sauce especiale."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Poulet */}
-      {hasResults && ["poulet", "roti", "panné", "braiser", "dg", "aloko", "frites"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='poulet' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className="ml-4 mb-8  mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Poulet
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Poulet roti */}
-            {["poulet roti", "sauce especiale", "frites"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./P-4.jpg"
-                      alt="Poulet roti" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Poulet roti
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Poulet roti a la sauce especiale et au frites.</p>
-                    <CardActions 
-                      price={poulet} 
-                      itemId="poulet_roti"
-                      name="Poulet roti"
-                      image="./P-4.jpg"
-                      description="Poulet roti a la sauce especiale et au frites."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Poulet panné */}
-            {["poulet panné", "panné"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./P-1.jpg"
-                      alt="Poulet panné" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Poulet panné
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Poulet panné .</p>
-                    <CardActions 
-                      price={poulet} 
-                      itemId="poulet_panne"
-                      name="Poulet panné"
-                      image="./P-1.jpg"
-                      description="Poulet panné ."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Poulet braiser */}
-            {["poulet braiser", "braiser"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./P-2.jpg"
-                      alt="Poulet braiser" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Poulet braiser
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Poulet braiser.</p>
-                    <CardActions 
-                      price={poulet} 
-                      itemId="poulet_braiser"
-                      name="Poulet braiser"
-                      image="./P-2.jpg"
-                      description="Poulet braiser."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Poulet DG */}
-            {["poulet dg", "aloko"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./P-3.jpg"
-                      alt="Poulet DG" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Poulet DG
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Poulet DG a l'aloko.</p>
-                    <CardActions 
-                      price={poulet} 
-                      itemId="poulet_dg"
-                      name="Poulet DG"
-                      image="./P-3.jpg"
-                      description="Poulet DG a l'aloko."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Tacos*/}
-      {hasResults && ["tacos", "boeuf", "mexicain", "poisson", "vegetarien"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='tacos' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className="ml-4 mb-8  mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Tacos
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Tacos Boeuf */}
-            {["tacos boeuf", "boeuf"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Tacos.jpg"
-                      alt="Tacos Boeuf" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Tacos Boeuf
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Tacos Boeuf.</p>
-                    <CardActions 
-                      price={tacos} 
-                      itemId="tacos_boeuf"
-                      name="Tacos Boeuf"
-                      image="./Tacos.jpg"
-                      description="Tacos Boeuf."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Tacos Mexicain */}
-            {["tacos mexicain", "mexicain"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Tacos-poulet.jpg"
-                      alt="Tacos Poulet" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Tacos Mexicain
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Tacos Mexicain .</p>
-                    <CardActions 
-                      price={tacos} 
-                      itemId="tacos_mexicain"
-                      name="Tacos Mexicain"
-                      image="./Tacos-poulet.jpg"
-                      description="Tacos Mexicain ."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Tacos Poisson */}
-            {["tacos poisson", "poisson"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Tacos-poisson.jpg"
-                      alt="Tacos Poisson" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Tacos Poisson
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Tacos Poisson.</p>
-                    <CardActions 
-                      price={tacos} 
-                      itemId="tacos_poisson"
-                      name="Tacos Poisson"
-                      image="./Tacos-poisson.jpg"
-                      description="Tacos Poisson."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Tacos Vegetarien */}
-            {["tacos vegetarien", "vegetarien"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Tacos-V.jpg"
-                      alt="Tacos Vegetarien" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Tacos Vegetarien
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Tacos  vegetarien.</p>
-                    <CardActions 
-                      price={tacos} 
-                      itemId="tacos_vegetarien"
-                      name="Tacos Vegetarien"
-                      image="./Tacos-V.jpg"
-                      description="Tacos  vegetarien."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Viande */}
-      {hasResults && ["viande", "steack", "boeuf", "grillade", "mouton", "côtelettes", "agneau", "boullete"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='viande' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className="ml-4 mb-8  mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Viande
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Steack de boeuf */}
-            {["steack de boeuf", "steack"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./St-1.jpg"
-                      alt="Steack" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Steack de boeuf
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Steack de boeuf.</p>
-                    <CardActions 
-                      price={viande} 
-                      itemId="steack_de_boeuf"
-                      name="Steack de boeuf"
-                      image="./St-1.jpg"
-                      description="Steack de boeuf."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Grillade de mouton */}
-            {["grillade de mouton", "grillade"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./St-2.jpg"
-                      alt="Grillade" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Grillade de mouton
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Grillade de mouton.</p>
-                    <CardActions 
-                      price={viande} 
-                      itemId="grillade_de_mouton"
-                      name="Grillade de mouton"
-                      image="./St-2.jpg"
-                      description="Grillade de mouton."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Côtelettes d'agneau */}
-            {["côtelettes d'agneau", "côtelettes", "agneau"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./St-3.jpg"
-                      alt="Côtelettes" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Côtelettes d'agneau
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Côtelettes d'agneau.</p>
-                    <CardActions 
-                      price={viande} 
-                      itemId="cotelettes_d_agneau"
-                      name="Côtelettes d'agneau"
-                      image="./St-3.jpg"
-                      description="Côtelettes d'agneau."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Boullete de boeuf */}
-            {["boullete de boeuf", "boullete", "boulette"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./St-4.jpg"
-                      alt="Boullete de boeuf" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Boullete de boeuf
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Boullete de boeuf.</p>
-                    <CardActions 
-                      price={viande} 
-                      itemId="boullete_de_boeuf"
-                      name="Boullete de boeuf"
-                      image="./St-4.jpg"
-                      description="Boullete de boeuf."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Poisson*/}
-      {hasResults && ["poisson", "braisé", "soupe", "boullete", "saumon", "grec"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='poisson' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className="ml-4 mb-8  mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Poisson
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Poisson braisé */}
-            {["poisson braisé", "braisé"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Poisson-braisé.jpg"
-                      alt="Poisson braisé" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Poisson braisé
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Poisson braisé.</p>
-                    <CardActions 
-                      price={poisson} 
-                      itemId="poisson_braise"
-                      name="Poisson braisé"
-                      image="./Poisson-braisé.jpg"
-                      description="Poisson braisé."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Soupe de poisson */}
-            {["soupe de poisson", "soupe"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Soupe-de-poisson.jpg"
-                      alt="Soupe de poisson" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Soupe de poisson
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Soupe de poisson.</p>
-                    <CardActions 
-                      price={poisson} 
-                      itemId="soupe_de_poisson"
-                      name="Soupe de poisson"
-                      image="./Soupe-de-poisson.jpg"
-                      description="Soupe de poisson."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Boullete de poisson */}
-            {["boullete de poisson", "boullete", "boulette"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Boullete-de-poisson.jpg"
-                      alt="Boullete de poisson" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Boullete de poisson
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Boullete de poisson.</p>
-                    <CardActions 
-                      price={poisson} 
-                      itemId="boullete_de_poisson"
-                      name="Boullete de poisson"
-                      image="./Boullete-de-poisson.jpg"
-                      description="Boullete de poisson."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Saumon grec */}
-            {["saumon grec", "saumon"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./saumon-grec.jpg"
-                      alt="saumon grec" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Saumon grec
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Saumon grec.</p>
-                    <CardActions 
-                      price={poisson} 
-                      itemId="saumon_grec"
-                      name="Saumon grec"
-                      image="./saumon-grec.jpg"
-                      description="Saumon grec."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Gateau*/}
-      {hasResults && ["gateau", "chocolat", "framboise", "fraise", "banane"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='gateau' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className="ml-4 mb-8  mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Gateau
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Gateau chocolat */}
-            {["gateau chocolat", "chocolat"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Gateau-chocolat.jpg"
-                      alt="Poisson braisé" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Gateau chocolat
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Gateau chocolat.</p>
-                    <CardActions 
-                      price={gateau} 
-                      itemId="gateau_chocolat"
-                      name="Gateau chocolat"
-                      image="./Gateau-chocolat.jpg"
-                      description="Gateau chocolat."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Gateau Framboise */}
-            {["gateau framboise", "framboise"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./gateau-framboise.jpg"
-                      alt="Soupe de poisson" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Gateau Framboise
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Gateau Framboise.</p>
-                    <CardActions 
-                      price={gateau} 
-                      itemId="gateau_framboise"
-                      name="Gateau Framboise"
-                      image="./gateau-framboise.jpg"
-                      description="Gateau Framboise."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Gateau-fraise */}
-            {["gateau-fraise", "fraise"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Gateau-fraise.jpg"
-                      alt="Boullete de poisson" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Gateau-fraise
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Gateau-fraise.</p>
-                    <CardActions 
-                      price={gateau} 
-                      itemId="gateau_fraise"
-                      name="Gateau-fraise"
-                      image="./Gateau-fraise.jpg"
-                      description="Gateau-fraise."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Gateau a la banane */}
-            {["gateau a la banane", "banane"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Gateau-banane.jpg"
-                      alt="Gateau-banane" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Gateau a la banane
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Gateau a la banane.</p>
-                    <CardActions 
-                      price={gateau} 
-                      itemId="gateau_a_la_banane"
-                      name="Gateau a la banane"
-                      image="./Gateau-banane.jpg"
-                      description="Gateau a la banane."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Crepes*/}
-      {hasResults && ["crepe", "crèpe", "chocolat", "banane", "fraise", "saumon", "grec"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='crepe' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className=" mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Crepes
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Crèpe au chocolat */}
-            {["crèpe au chocolat", "crepe", "chocolat"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Crepe-chocolat.jpg"
-                      alt="Crepe-chocolat" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Crèpe au chocolat
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Crèpe au chocolat.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="crepe_au_chocolat"
-                      name="Crèpe au chocolat"
-                      image="./Crepe-chocolat.jpg"
-                      description="Crèpe au chocolat."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Crèpe à la banane */}
-            {["crèpe à la banane", "banane"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Crepe-banane.jpg"
-                      alt="Crepe-banane" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Crèpe à la banane
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Crèpe à la banane.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="crepe_a_la_banane"
-                      name="Crèpe à la banane"
-                      image="./Crepe-banane.jpg"
-                      description="Crèpe à la banane."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Crèpe au chocolat fraise */}
-            {["crèpe au chocolat fraise", "chocolat", "fraise"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Crepe-chocolat fraise.jpg"
-                      alt="Crepe-chocolat fraise" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Crèpe au chocolat fraise
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Crèpe au chocolat fraise.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="crepe_au_chocolat_fraise"
-                      name="Crèpe au chocolat fraise"
-                      image="./Crepe-chocolat fraise.jpg"
-                      description="Crèpe au chocolat fraise."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Saumon grec (crèpes) */}
-            {["saumon grec", "saumon"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./saumon-grec.jpg"
-                      alt="saumon grec" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Saumon grec
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Saumon grec.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="saumon_grec_crepe"
-                      name="Saumon grec"
-                      image="./saumon-grec.jpg"
-                      description="Saumon grec."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Glace*/}
-      {hasResults && ["glace", "glaces", "chocolat", "fraise", "caramel", "banane"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='glaces' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className="  mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Glaces
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Glace chocolat */}
-            {["glace chocolat", "chocolat"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Glace-chocolat.jpg"
-                      alt="Glace chocolat" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Glace chocolat
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Glace chocolat.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="glace_chocolat"
-                      name="Glace chocolat"
-                      image="./Glace-chocolat.jpg"
-                      description="Glace chocolat."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Glace fraise */}
-            {["glace fraise", "fraise"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Glace fraise.jpg"
-                      alt="Glace fraise" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Glace fraise
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Glace fraise.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="glace_fraise"
-                      name="Glace fraise"
-                      image="./Glace fraise.jpg"
-                      description="Glace fraise."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Glace caramel */}
-            {["glace caramel", "caramel"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Glace-caramel.jpg"
-                      alt="Glace caramel" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Glace caramel
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Glace caramel.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="glace_caramel"
-                      name="Glace caramel"
-                      image="./Glace-caramel.jpg"
-                      description="Glace caramel."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Glace a la banane */}
-            {["glace a la banane", "banane"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Glace-banane.jpg"
-                      alt="Glace a la banane" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Glace a la banane
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Glace a la banane.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="glace_a_la_banane"
-                      name="Glace a la banane"
-                      image="./Glace-banane.jpg"
-                      description="Glace a la banane."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Menu Boisson*/}
-      {hasResults && ["boisson", "boissons", "coca", "cola", "fanta", "sprite", "double", "seven"].some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) && (
-        <div id='Boissons' className='timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'>
-          <div className="  mt-6">
-            <div className="flex flex-col">
-              <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                  Menu Boissons
-                </span>
-              </h2>
-              <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
-            </div>
-          </div>
-          <div className=' grid grid-cols-4 gap-4'>
-            {/* Coca cola */}
-            {["coca cola", "coca", "cola"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Coca cola.jpg"
-                      alt="Coca cola" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Coca cola
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Coca cola.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="coca_cola"
-                      name="Coca cola"
-                      image="./Coca cola.jpg"
-                      description="Coca cola."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Fanta */}
-            {["fanta"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Fanta.jpg"
-                      alt="Fanta" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Fanta
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Fanta.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="fanta"
-                      name="Fanta"
-                      image="./Fanta.jpg"
-                      description="Fanta."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Sprite */}
-            {["sprite"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Sprite.jpg"
-                      alt="Sprite" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Sprite
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Sprite.</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="sprite"
-                      name="Sprite"
-                      image="./Sprite.jpg"
-                      description="Sprite."
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-
-            {/* Double Seven */}
-            {["double seven", "double7"].some(k => k.toLowerCase().includes(searchTerm.toLowerCase())) && (
-              <div>
-                <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                  <figure>
-                    <img
-                      src="./Double7.jpg"
-                      alt="Double Seven" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      Double Seven
-                      <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>Double Seven Petit - Moyen - Grand</p>
-                    <CardActions 
-                      price={crepe} 
-                      itemId="double_seven"
-                      name="Double Seven"
-                      image="./Double7.jpg"
-                      description="Double Seven Petit - Moyen - Grand"
-                    />
-                    </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+        );
+      })}
       
     </div>
   );

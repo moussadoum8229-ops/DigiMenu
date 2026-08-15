@@ -176,7 +176,7 @@ function Admin() {
         {/* Partie inférieure de la barre latérale / Déconnexion */}
         <div className="p-4 border-t border-slate-800/60">
           {/* Carte promotionnelle Digimenu */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 border border-slate-800/80 mb-4 relative overflow-hidden group">
+          <div className="p-4 rounded-2xl bg-linear-to-br from-slate-900 to-indigo-950 border border-slate-800/80 mb-4 relative overflow-hidden group">
             <div className="absolute -right-6 -bottom-6 w-20 h-20 bg-indigo-50/10 rounded-full blur-xl group-hover:bg-indigo-50/20 transition-all duration-500"></div>
             <div className="w-8 h-8 rounded-lg bg-indigo-50/20 flex items-center justify-center text-indigo-400 mb-3">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -608,7 +608,7 @@ function Admin() {
                         strokeDashoffset="0"
                         onMouseEnter={() => setHoveredSegment('Livrées')}
                         onMouseLeave={() => setHoveredSegment(null)}
-                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'Livrées' ? 'stroke-[13]' : ''}`}
+                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'Livrées' ? 'stroke-13' : ''}`}
                       />
                       {/* Segment 2: En préparation (18%) -> Bleu. Trait: 42.97, décalage: -171.9 */}
                       <circle
@@ -622,7 +622,7 @@ function Admin() {
                         strokeDashoffset="-171.9"
                         onMouseEnter={() => setHoveredSegment('En préparation')}
                         onMouseLeave={() => setHoveredSegment(null)}
-                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'En préparation' ? 'stroke-[13]' : ''}`}
+                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'En préparation' ? 'stroke-13' : ''}`}
                       />
                       {/* Segment 3: En attente (7%) -> Orange. Trait: 16.71, décalage: -214.88 */}
                       <circle
@@ -636,7 +636,7 @@ function Admin() {
                         strokeDashoffset="-214.88"
                         onMouseEnter={() => setHoveredSegment('En attente')}
                         onMouseLeave={() => setHoveredSegment(null)}
-                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'En attente' ? 'stroke-[13]' : ''}`}
+                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'En attente' ? 'stroke-13' : ''}`}
                       />
                       {/* Segment 4: Annulées (3%) -> Rouge. Trait: 7.16, décalage: -231.59 */}
                       <circle
@@ -650,7 +650,7 @@ function Admin() {
                         strokeDashoffset="-231.59"
                         onMouseEnter={() => setHoveredSegment('Annulées')}
                         onMouseLeave={() => setHoveredSegment(null)}
-                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'Annulées' ? 'stroke-[13]' : ''}`}
+                        className={`transition-all duration-300 cursor-pointer ${hoveredSegment === 'Annulées' ? 'stroke-13' : ''}`}
                       />
                     </svg>
 

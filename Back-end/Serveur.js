@@ -8,7 +8,7 @@ dotenv.config();
 require("./Databases/Data");
 
 app.use(cors({
-    origin: "http://localhost:5174",
+    origin: "http://localhost:5173",
 }));
 app.use(express.json());
 
@@ -22,6 +22,6 @@ app.use("/Auth", Auth);
 const OrderRoutes = require("./Routes/OrderRoutes");
 app.use("/api/orders", OrderRoutes);
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 3000}`);
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 5000}`);
 });
