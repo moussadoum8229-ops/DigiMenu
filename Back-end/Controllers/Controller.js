@@ -25,7 +25,9 @@ const Auth = async (req, res) => {
         );
 
         if (adminRows.length > 0) {
-            return res.json({ message: "success", role: "admin" });
+            const admin = adminRows[0];
+            const nameToDisplay = admin.Nom || admin.Username || 'Administrateur';
+            return res.json({ message: "success", role: "admin", adminName: nameToDisplay });
         }
 
         // Si aucun n'est trouvé

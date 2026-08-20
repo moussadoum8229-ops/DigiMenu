@@ -1,17 +1,18 @@
 const pool = require("../Databases/Data");
 
-// Enregistrer une nouvelle commande (relationnelle)
 const createOrder = async (req, res) => {
     const { type_commande, numero_table, details_commande, montant_total } = req.body;
 
-    if (!type_commande || !details_commande || !montant_total || !Array.isArray(details_commande)) {
+    if (!type_commande || !details_commande || !montant_total || !Array.isArray(details_commande) || details_commande.length === 0) {
         return res.status(400).json({ message: "Données de commande incomplètes ou invalides." });
     }
 
     const connection = await pool.getConnection();
+    let isTransactionActive = false;
+    
     try {
-        // Commencer une transaction SQL pour s'assurer que si une insertion échoue, tout s'annule
         await connection.beginTransaction();
+        isTransactionActive = true;
 
         // 1. Insérer la commande principale
         const [orderResult] = await connection.query(
@@ -25,15 +26,16 @@ const createOrder = async (req, res) => {
         const insertDetailsQuery = "INSERT INTO Details_Commande (id_commande, nom_produit, quantite, prix_unitaire) VALUES ?";
         const detailsValues = details_commande.map(item => [
             id_commande,
-            item.name,
-            item.quantity,
-            item.price
+            item.name || item.nom,
+            item.quantity || item.quantite,
+            item.price || item.prix
         ]);
 
         await connection.query(insertDetailsQuery, [detailsValues]);
 
         // Valider la transaction
         await connection.commit();
+        isTransactionActive = false;
 
         return res.status(201).json({ 
             message: "Commande créée avec succès !", 
@@ -41,11 +43,19 @@ const createOrder = async (req, res) => {
         });
     } catch (error) {
         // En cas d'erreur, on annule toutes les modifications faites lors de cette tentative
-        await connection.rollback();
+        if (isTransactionActive) {
+            try {
+                await connection.rollback();
+            } catch (rollbackError) {
+                console.error("Erreur critique lors du rollback:", rollbackError);
+            }
+        }
         console.error("Erreur lors de la création de la commande :", error);
         return res.status(500).json({ message: "Erreur lors de l'enregistrement de la commande." });
     } finally {
-        connection.release();
+        if (connection) {
+            connection.release();
+        }
     }
 };
 

@@ -495,7 +495,7 @@ export default function Menu() {
   const hasResults = !searchTerm || allKeywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen bg-gray-50 font-[Open_Sans]">
       {/* En-tête Sticky avec effet Glassmorphism */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -652,7 +652,6 @@ export default function Menu() {
                       <div className="card-body">
                         <h2 className="card-title">
                           {item.name}
-                          <div className="badge badge-secondary">NEW</div>
                         </h2>
                         <p>{item.description}</p>
                         <CardActions 

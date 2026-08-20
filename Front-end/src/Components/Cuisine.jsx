@@ -1,6 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+// Dictionnaire de correspondance entre les noms de plats et leurs images réelles (dossier public)
+const getDishImage = (name) => {
+  if (!name) return "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop&q=80";
+  
+  // Normalisation du nom pour éviter les problèmes d'accents ou de casse
+  const cleanName = name.toLowerCase().trim().replace(/è/g, 'e').replace(/é/g, 'e').replace(/à/g, 'a');
+  
+  const mapping = {
+    "humberger": "./humberger.jpg",
+    "cheeseberger": "./Cheeseburger.jpg",
+    "cheeseburger": "./Cheeseburger.jpg",
+    "humberger au fromage": "./Burger-poulet.jpg",
+    "humburger au poisson": "./Berger-poisson.jpg",
+    "poulet roti": "./P-4.jpg",
+    "poulet panne": "./P-1.jpg",
+    "poulet braiser": "./P-2.jpg",
+    "poulet braise": "./P-2.jpg",
+    "poulet dg": "./P-3.jpg",
+    "tacos boeuf": "./Tacos.jpg",
+    "tacos mexicain": "./Tacos-poulet.jpg",
+    "tacos poisson": "./Tacos-poisson.jpg",
+    "tacos vegetarien": "./Tacos-V.jpg",
+    "steack de boeuf": "./St-1.jpg",
+    "grillade de mouton": "./St-2.jpg",
+    "cotelettes d'agneau": "./St-3.jpg",
+    "boullete de boeuf": "./St-4.jpg",
+    "poisson braise": "./Poisson-braisé.jpg",
+    "poisson braise": "./Poisson-braisé.jpg",
+    "soupe de poisson": "./Soupe-de-poisson.jpg",
+    "boullete de poisson": "./Boullete-de-poisson.jpg",
+    "saumon grec": "./saumon-grec.jpg",
+    "gateau chocolat": "./Gateau-chocolat.jpg",
+    "gateau framboise": "./gateau-framboise.jpg",
+    "gateau-fraise": "./Gateau-fraise.jpg",
+    "gateau a la banane": "./Gateau-banane.jpg",
+    "crepe au chocolat": "./Crepe-chocolat.jpg",
+    "crepe a la banane": "./Crepe-banane.jpg",
+    "crepe au chocolat fraise": "./Crepe-chocolat fraise.jpg",
+    "glace chocolat": "./Glace-chocolat.jpg",
+    "glace fraise": "./Glace fraise.jpg",
+    "glace caramel": "./Glace-caramel.jpg",
+    "glace a la banane": "./Glace-banane.jpg",
+    "coca cola": "./Coca cola.jpg",
+    "fanta": "./Fanta.jpg",
+    "sprite": "./Sprite.jpg",
+    "double seven": "./Double7.jpg"
+  };
+
+  return mapping[cleanName] || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop&q=80";
+};
+
 export default function Cuisine() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +105,7 @@ export default function Cuisine() {
       });
 
       if (response.ok) {
-        setOrders(prev => prev.filter(order => order.id !== orderId));
+        setOrders(prev => prev.filter(order => order.id_commande !== orderId));
       } else {
         alert("Erreur lors de la mise à jour de la commande.");
       }
@@ -75,48 +126,61 @@ export default function Cuisine() {
     const diffHours = Math.floor(diffMins / 60);
     return `Il y a ${diffHours}h ${diffMins % 60}m`;
   };
+   const [loady, setloady] = useState(true);
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setloady(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }, []);
+    if (loady) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="loader">
+            <img src="/Digiload.svg" alt="loader" width="200" />
+          </div>
+        </div>
+      );
+    }
 
   return (
-    <div className="min-h-screen bg-orange-50/30 text-gray-800 font-sans pb-16">
+    <div className="min-h-screen bg-orange-50/30 text-gray-800 font-[Open_Sans] pb-16">
 
-      {/* ================= EN-TÊTE PREMIUM (ORANGE & BLANC) ================= */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-orange-100 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+      {/* ================= EN-TÊTE FIGMA ================= */}
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-5">
+          <div className="flex justify-between items-center">
 
             {/* Logo & Titre */}
-            <div className="flex items-center gap-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-wider text-orange-600 flex items-center gap-2">
-                  DigiMenu <span className="text-gray-800 font-medium lowercase text-lg sm:text-xl font-sans">cuisine</span>
-                </h1>
-                <p className="text-gray-500 text-xs sm:text-sm font-semibold tracking-wide">
-                  Préparation & Suivi des Commandes Clients
-                </p>
-              </div>
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight">
+                <span className="text-orange-500 mr-2">DIGIMENU</span>
+                <span className="text-gray-700 font-medium">Cuisine</span>
+              </h1>
+              <p className="text-gray-400 text-sm mt-1">
+                Préparation & Suivi des Commandes Clients
+              </p>
             </div>
 
-            {/* Badges et Refresh */}
+            {/* Statut & Bouton Refresh */}
             <div className="flex items-center gap-3">
-              {/* Badge commandes actives */}
-              <div className="bg-orange-50 px-4 py-2 rounded-2xl border border-orange-200 flex items-center gap-2.5 shadow-xs">
-                <span className="flex h-3.5 w-3.5 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-orange-600"></span>
-                </span>
-                <span className="text-sm font-black text-orange-700">
-                  {orders.length} {orders.length > 1 ? 'Commandes Actives' : 'Commande Active'}
-                </span>
-              </div>
-
-              {/* Bouton de rafraîchissement manuel */}
+              <span className="text-orange-500 font-bold text-lg">
+                {orders.length} {orders.length > 1 ? 'Commandes en cours' : 'Commande en cours'}
+              </span>
+              
               <button
                 onClick={() => setRefreshKey(prev => prev + 1)}
-                className="p-3 bg-white hover:bg-orange-50 active:bg-orange-100 rounded-2xl border-2 border-orange-200 text-orange-600 transition-all duration-200 cursor-pointer shadow-sm hover:shadow flex items-center justify-center group"
-                title="Rafraîchir les commandes"
+                className="p-1.5 text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors cursor-pointer flex items-center justify-center"
+                title="Rafraîchir"
               >
-                <svg className={`w-5 h-5 ${isRefreshing ? 'animate-spin text-orange-500' : 'group-hover:rotate-12 transition-transform'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 7.89M9 11l3-3 3 3m-3-3v12" />
+                <svg 
+                  className={`w-5 h-5 ${isRefreshing ? 'animate-spin text-orange-500' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
               </button>
             </div>
@@ -158,17 +222,16 @@ export default function Cuisine() {
                   className="bg-white rounded-3xl border-2 border-orange-100 shadow-lg hover:shadow-xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5"
                 >
 
-                  {/* Tête de la carte (Vibrant Orange ou Cyan) */}
-                  <div className={`p-5 flex justify-between items-start ${isDelivery ? 'bg-cyan-550/10 border-b border-cyan-100' : 'bg-orange-50 border-b border-orange-100'
-                    }`}>
+                  {/* Tête de la carte (Fond blanc uni) */}
+                  <div className="p-5 flex justify-between items-start bg-white border-b border-gray-100">
                     <div>
                       {/* Badge du mode */}
                       <span className={`inline-flex px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2.5 shadow-xs ${isDelivery
-                          ? 'bg-cyan-550 text-white'
-                          : 'bg-orange-500 text-white'
+                          ? 'bg-white text-black'
+                          : 'bg-white text-black'
                         }`}>
-                        {order.type_commande === 'livraison' ? 'Livraison 🛵' :
-                          order.type_commande === 'a_emporter' ? 'À emporter 🛍️' : 'Sur Place 🍽️'}
+                        {order.type_commande === 'livraison' ? 'Livraison ' : 
+                          order.type_commande === 'a_emporter' ? 'À emporter ' : 'Sur Place'}
                       </span>
 
                       {/* Titre Table ou Type */}
@@ -202,7 +265,7 @@ export default function Cuisine() {
                               {/* Photo du plat commandé */}
                               <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-gray-100 border border-orange-100 shadow-inner">
                                 <img
-                                  src={item.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop&q=80"}
+                                  src={getDishImage(item.nom_produit)}
                                   alt={item.nom_produit}
                                   className="w-full h-full object-cover"
                                   onError={(e) => {
@@ -245,11 +308,8 @@ export default function Cuisine() {
 
                     <button
                       onClick={() => handleMarkAsReady(order.id_commande)}
-                      className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-2xl transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-md hover:shadow-lg border-b-4 border-emerald-700 active:border-b-0 hover:-translate-y-0.5 active:translate-y-0.5"
+                      className="btn btn-active btn-success btn-sm w-20 rounded-full "
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                      </svg>
                       Prêt !
                     </button>
                   </div>

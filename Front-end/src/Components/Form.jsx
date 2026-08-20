@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { motion } from 'motion/react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 export default function Form() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -21,13 +23,16 @@ export default function Form() {
       });
       if (response.data.message === 'success') {
         if (response.data.role === 'admin') {
-          navigate('/Admin')
+          if (response.data.adminName) {
+            localStorage.setItem('adminName', response.data.adminName);
+          }
+          navigate('/Dashboard')
         } else {
           navigate('/cuisine')
         }
       }
     }
-    catch(error){
+    catch (error) {
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
       } else {
@@ -37,10 +42,25 @@ export default function Form() {
       setIsLoading(false);
     }
   }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="loader">
+          <img src="/Digiload.svg" alt="loader" width="200" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen w-full bg-white flex items-center justify-center p-4 font-sans">
-      
+
       {/* Bouton retour accueil */}
       <motion.button
         initial={{ opacity: 0, x: -20 }}
@@ -60,7 +80,7 @@ export default function Form() {
         initial={{ opacity: 0, y: 30, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="w-11/12 md:w-full max-w-3xl bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row border border-gray-100 min-h-137.5"
+        className="w-11/12 md:w-full max-w-2xl bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row border border-gray-100 min-h-137.5"
       >
         {/* Partie gauche : Image Burger */}
         <div className="hidden md:block md:w-1/2 relative bg-[#d61c1c]">
@@ -74,7 +94,7 @@ export default function Form() {
         {/* Partie droite : Formulaire */}
         <div className="w-full md:w-1/2 p-8 sm:p-12 flex flex-col justify-center bg-white">
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {/* Logo & Sous-titres */}
             <div className="flex flex-col items-center text-center">
               <img
@@ -86,17 +106,17 @@ export default function Form() {
                   e.target.src = "./Logo.jpeg";
                 }}
               />
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight">
+              <h2 className=" text-sm sm:text-xl font-bold text-gray-800 tracking-tight">
                 Connectez-vous pour accéder à votre espace.
               </h2>
-              <p className="text-gray-400 text-xs sm:text-sm mt-1">
+              <p className="text-gray-400 text-sm mt-1">
                 Votre restaurant, vos commandes, votre contrôle.
               </p>
             </div>
 
             {/* Messages d'erreur */}
             {error && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-red-50 border border-red-200 text-red-600 text-sm py-3 px-4 rounded-full text-center font-medium"

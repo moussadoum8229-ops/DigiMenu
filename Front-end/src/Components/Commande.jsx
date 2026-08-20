@@ -66,7 +66,7 @@ export default function Commande() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans pb-20">
+    <div className="min-h-screen bg-gray-50 font-['Open_Sans'] pb-20">
       {/* En-tête Sticky avec effet Glassmorphism */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

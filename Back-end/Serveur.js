@@ -22,6 +22,9 @@ app.use("/Auth", Auth);
 const OrderRoutes = require("./Routes/OrderRoutes");
 app.use("/api/orders", OrderRoutes);
 
+const DashboardRoutes = require("./Routes/DashboardRoutes");
+app.use("/api/dashboard", DashboardRoutes);
+
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is running on port ${process.env.PORT || 5000}`);
 });
