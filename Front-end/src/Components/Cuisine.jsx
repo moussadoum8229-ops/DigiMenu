@@ -5,51 +5,95 @@ import { Link } from 'react-router-dom';
 const getDishImage = (name) => {
   if (!name) return "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop&q=80";
   
-  // Normalisation du nom pour éviter les problèmes d'accents ou de casse
-  const cleanName = name.toLowerCase().trim().replace(/è/g, 'e').replace(/é/g, 'e').replace(/à/g, 'a');
+  // Normalisation complète des accents, casse et caractères spéciaux
+  const cleanName = name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/'/g, " ")
+    .trim();
   
   const mapping = {
-    "humberger": "./humberger.jpg",
-    "cheeseberger": "./Cheeseburger.jpg",
-    "cheeseburger": "./Cheeseburger.jpg",
-    "humberger au fromage": "./Burger-poulet.jpg",
-    "humburger au poisson": "./Berger-poisson.jpg",
-    "poulet roti": "./P-4.jpg",
-    "poulet panne": "./P-1.jpg",
-    "poulet braiser": "./P-2.jpg",
-    "poulet braise": "./P-2.jpg",
-    "poulet dg": "./P-3.jpg",
-    "tacos boeuf": "./Tacos.jpg",
-    "tacos mexicain": "./Tacos-poulet.jpg",
-    "tacos poisson": "./Tacos-poisson.jpg",
-    "tacos vegetarien": "./Tacos-V.jpg",
-    "steack de boeuf": "./St-1.jpg",
-    "grillade de mouton": "./St-2.jpg",
-    "cotelettes d'agneau": "./St-3.jpg",
-    "boullete de boeuf": "./St-4.jpg",
-    "poisson braise": "./Poisson-braisé.jpg",
-    "poisson braise": "./Poisson-braisé.jpg",
-    "soupe de poisson": "./Soupe-de-poisson.jpg",
-    "boullete de poisson": "./Boullete-de-poisson.jpg",
-    "saumon grec": "./saumon-grec.jpg",
-    "gateau chocolat": "./Gateau-chocolat.jpg",
-    "gateau framboise": "./gateau-framboise.jpg",
-    "gateau-fraise": "./Gateau-fraise.jpg",
-    "gateau a la banane": "./Gateau-banane.jpg",
-    "crepe au chocolat": "./Crepe-chocolat.jpg",
-    "crepe a la banane": "./Crepe-banane.jpg",
-    "crepe au chocolat fraise": "./Crepe-chocolat fraise.jpg",
-    "glace chocolat": "./Glace-chocolat.jpg",
-    "glace fraise": "./Glace fraise.jpg",
-    "glace caramel": "./Glace-caramel.jpg",
-    "glace a la banane": "./Glace-banane.jpg",
-    "coca cola": "./Coca cola.jpg",
-    "fanta": "./Fanta.jpg",
-    "sprite": "./Sprite.jpg",
-    "double seven": "./Double7.jpg"
+    // Burgers
+    "humberger": "/humberger.jpg",
+    "hamburger": "/humberger.jpg",
+    "cheeseburger": "/Cheeseburger.jpg",
+    "cheeseberger": "/Cheeseburger.jpg",
+    "burger poulet": "/Burger-poulet.jpg",
+    "humberger au fromage": "/Burger-poulet.jpg",
+    "burger poisson": "/Berger-poisson.jpg",
+    "humburger au poisson": "/Berger-poisson.jpg",
+
+    // Poulet
+    "poulet roti": "/P-4.jpg",
+    "poulet pane": "/P-1.jpg",
+    "poulet panne": "/P-1.jpg",
+    "poulet braise": "/P-2.jpg",
+    "poulet braiser": "/P-2.jpg",
+    "poulet dg": "/P-3.jpg",
+
+    // Tacos
+    "tacos boeuf": "/Tacos.jpg",
+    "tacos mexicain": "/Tacos-poulet.jpg",
+    "tacos poulet": "/Tacos-poulet.jpg",
+    "tacos poisson": "/Tacos-poisson.jpg",
+    "tacos vegetarien": "/Tacos-V.jpg",
+
+    // Viandes
+    "steak de boeuf": "/St-1.jpg",
+    "steack de boeuf": "/St-1.jpg",
+    "grillade de mouton": "/St-2.jpg",
+    "cotelettes d agneau": "/St-3.jpg",
+    "cotelettes d'agneau": "/St-3.jpg",
+    "boulettes de boeuf": "/St-4.jpg",
+    "boullete de boeuf": "/St-4.jpg",
+
+    // Poisson
+    "poisson braise": "/Poisson-braisé.jpg",
+    "soupe de poisson": "/Soupe-de-poisson.jpg",
+    "boulettes de poisson": "/Boullete-de-poisson.jpg",
+    "boullete de poisson": "/Boullete-de-poisson.jpg",
+    "saumon grec": "/saumon-grec.jpg",
+
+    // Gâteaux
+    "gateau chocolat": "/Gateau-chocolat.jpg",
+    "gateau framboise": "/gateau-framboise.jpg",
+    "gateau fraise": "/Gateau-fraise.jpg",
+    "gateau banane": "/Gateau-banane.jpg",
+
+    // Crêpes
+    "crepe au chocolat": "/Crepe-chocolat.jpg",
+    "crepe a la banane": "/Crepe-banane.jpg",
+    "crepe chocolat fraise": "/Crepe-chocolat fraise.jpg",
+    "crepe au chocolat fraise": "/Crepe-chocolat fraise.jpg",
+
+    // Glaces
+    "glace chocolat": "/Glace-chocolat.jpg",
+    "glace fraise": "/Glace fraise.jpg",
+    "glace caramel": "/Glace-caramel.jpg",
+    "glace a la banane": "/Glace-banane.jpg",
+    "glace banane": "/Glace-banane.jpg",
+
+    // Boissons
+    "coca cola": "/Coca cola.jpg",
+    "fanta": "/Fanta.jpg",
+    "sprite": "/Sprite.jpg",
+    "double seven": "/Double7.jpg",
+    "double7": "/Double7.jpg"
   };
 
-  return mapping[cleanName] || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop&q=80";
+  // Chercher d'abord une correspondance directe
+  let matchedImage = mapping[cleanName];
+
+  // Si pas de correspondance directe, chercher par inclusion de mot-clé
+  if (!matchedImage) {
+    const keys = Object.keys(mapping);
+    const foundKey = keys.find(k => cleanName.includes(k) || k.includes(cleanName));
+    if (foundKey) matchedImage = mapping[foundKey];
+  }
+
+  const finalPath = matchedImage || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop&q=80";
+  return encodeURI(finalPath);
 };
 
 export default function Cuisine() {
@@ -227,17 +271,41 @@ export default function Cuisine() {
                     <div>
                       {/* Badge du mode */}
                       <span className={`inline-flex px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2.5 shadow-xs ${isDelivery
-                          ? 'bg-white text-black'
-                          : 'bg-white text-black'
+                          ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                          : order.type_commande === 'a_emporter'
+                          ? 'bg-blue-100 text-blue-800 border border-blue-200'
+                          : 'bg-orange-100 text-orange-800 border border-orange-200'
                         }`}>
-                        {order.type_commande === 'livraison' ? 'Livraison ' : 
-                          order.type_commande === 'a_emporter' ? 'À emporter ' : 'Sur Place'}
+                        {order.type_commande === 'livraison' ? 'Livraison' : 
+                          order.type_commande === 'a_emporter' ? 'À emporter' : 'Sur Place'}
                       </span>
 
                       {/* Titre Table ou Type */}
                       <h3 className="text-xl font-extrabold text-gray-800">
                         {order.type_commande === 'sur_place' ? `Table N° ${order.numero_table || 'N/A'}` : 'Commande Externe'}
                       </h3>
+
+                      {/* Infos client & livraison pour les commandes externes / livraison */}
+                      {isDelivery && (
+                        <div className="mt-3 p-3 bg-orange-50/80 rounded-2xl border border-orange-100 space-y-1.5">
+                          <div className="flex items-center gap-2 text-xs text-gray-700">
+                            <span className="font-bold text-orange-600 flex items-center gap-1">
+                              Tél:
+                            </span>
+                            <span className="font-extrabold text-gray-900">
+                              {order.telephone_client || 'Non renseigné'}
+                            </span>
+                          </div>
+                          <div className="flex items-start gap-2 text-xs text-gray-700">
+                            <span className="font-bold text-orange-600 flex items-center gap-1 shrink-0">
+                               Quartier / Adresse:
+                            </span>
+                            <span className="font-extrabold text-gray-900 leading-tight">
+                              {order.adresse_livraison || 'Non renseignée'}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Temps écoulé (compteur live) */}

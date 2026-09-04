@@ -128,9 +128,9 @@ export default function Contents() {
             {/* Image des éléments flottants (Pizza, QR, etc.) */}
             {/* Positionnée en absolue derrière le téléphone */}
             <img
-              src="/Pizzaqr.png"
+              src="/DigiTele.jpeg"
               alt="Éléments décoratifs menu"
-              className="absolute z-0 w-[120%] sm:w-full max-w-162.5 object-contain opacity-90 transition-transform duration-700 hover:scale-105"
+              className="absolute z-0 w-[120%] rounded-full  sm:w-full max-w-162.5 object-contain opacity-90 transition-transform duration-700 hover:scale-105"
               style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
             />
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   ShoppingCart, 
@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 
 export default function AdminLayout({ children }) {
+  const navigate = useNavigate();
+
   const navItems = [
     { name: 'Tableau de bord', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Commandes', path: '/commandes-d', icon: ShoppingCart },
@@ -29,6 +31,17 @@ export default function AdminLayout({ children }) {
       setAdminName(storedName);
     }
   }, []);
+
+  // Fonction pour gérer la déconnexion
+  const handleLogout = () => {
+    // Nettoyer les informations de session admin
+    localStorage.removeItem('adminName');
+    localStorage.removeItem('role');
+    localStorage.removeItem('token');
+    
+    // Rediriger vers la page d'accueil ou de connexion
+    navigate('/');
+  };
 
   return (
     <div className="flex h-screen bg-[#f8f9fc] font-sans">
@@ -67,7 +80,10 @@ export default function AdminLayout({ children }) {
 
         {/* Logout */}
         <div className="p-4 border-t border-gray-50">
-          <button className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 w-full rounded-lg transition-colors text-sm font-medium">
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 hover:text-red-700 w-full rounded-lg transition-colors text-sm font-medium cursor-pointer"
+          >
             <LogOut size={20} />
             <span>Déconnexion</span>
           </button>

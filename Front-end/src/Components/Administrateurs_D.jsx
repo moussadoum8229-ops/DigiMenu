@@ -1,90 +1,215 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import AdminLayout from './AdminLayout';
-import { UserPlus, Eye, EyeOff } from 'lucide-react';
+import { UserPlus, Eye, EyeOff, CheckCircle2, AlertCircle, Phone, Lock, User } from 'lucide-react';
 
 export default function Add_Administrateurs() {
+  // ==========================================
+  // ÉTATS GLOBAUX DU FORMULAIRE
+  // ==========================================
   const [showPassword, setShowPassword] = useState(false);
   const [loady, setloady] = useState(true);
+  
+  // Champs du formulaire (correspondant à la base de données)
+  const [formData, setFormData] = useState({
+    Username: '',
+    Password: '',
+    Telephone: ''
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
+
+  // 1. Splash loader initial
   useEffect(() => {
-          const timer = setTimeout(() => {
-            setloady(false);
-          }, 1000);
-          return () => clearTimeout(timer);
-        }, []);
-        if (loady) {
-          return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-              <div className="loader">
-                <img src="/Digiload.svg" alt="loader" width="200" />
-              </div>
-            </div>
-          );
-        }   
+    const timer = setTimeout(() => {
+      setloady(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // 2. Gestion de la soumission du formulaire
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage({ type: '', text: '' });
+
+    // Validation côté client
+    if (!formData.Username.trim()) {
+      setMessage({ type: 'error', text: 'Veuillez saisir un nom d\'utilisateur.' });
+      return;
+    }
+    if (!formData.Password) {
+      setMessage({ type: 'error', text: 'Veuillez saisir un mot de passe.' });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Appel API vers le contrôleur AddAdministrateur
+      const response = await axios.post('http://localhost:5000/Auth/add-admin', {
+        Username: formData.Username.trim(),
+        Password: formData.Password,
+        Telephone: formData.Telephone ? formData.Telephone.trim() : null
+      });
+
+      if (response.status === 201) {
+        setMessage({ 
+          type: 'success', 
+          text: `L'administrateur "${formData.Username}" a été créé avec succès !` 
+        });
+        
+        // Réinitialisation des champs du formulaire
+        setFormData({
+          Username: '',
+          Password: '',
+          Telephone: ''
+        });
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setMessage({ type: 'error', text: error.response.data.message });
+      } else {
+        setMessage({ type: 'error', text: 'Erreur réseau lors de la création de l\'administrateur.' });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loady) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="loader animate-fade-in">
+          <img src="/Digiload.svg" alt="loader" width="200" />
+        </div>
+      </div>
+    );
+  }   
 
   return (
     <AdminLayout>
-      <div className="max-w-4xl mx-auto bg-white min-h-125 p-8 rounded-xl shadow-sm border border-gray-100">
+      <div className="max-w-4xl mx-auto bg-white min-h-125 p-8 rounded-2xl shadow-sm border border-gray-100 pb-10">
         
-        {/* Title */}
+        {/* En-tête / Titre */}
         <div className="flex items-center gap-3 mb-8">
-          <div className="text-[#a35200]">
+          <div className="p-2.5 bg-[#a35200]/10 text-[#a35200] rounded-xl">
             <UserPlus size={24} strokeWidth={2.5} />
           </div>
-          <h1 className="text-xl font-[Open_Sans] text-gray-800">
-            Nouvel Administrateur
-          </h1>
+          <div>
+            <h1 className="text-2xl font-bold font-[Open_Sans] text-gray-900">
+              Nouvel Administrateur
+            </h1>
+            <p className="text-xs text-gray-500 font-[Open_Sans] mt-0.5">
+              Créez un nouveau compte avec accès complet au panneau d'administration.
+            </p>
+          </div>
         </div>
 
-        {/* Form */}
-        <div className="space-y-6 max-w-full">
-          
-          {/* Nom complet */}
-          <div>
-            <label className="block text-sm font-[Open_Sans] text-gray-700 mb-2">
-              Nom complet
-            </label>
-            <input 
-              type="text" 
-              placeholder="ex: Username"
-              className="w-full bg-[#f8f9fc] border-none rounded-lg py-3 px-4 text-gray-700 text-sm font-medium placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#ff7a00]/20 transition-all"
-            />
+        {/* Message de succès ou d'erreur */}
+        {message.text && (
+          <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 text-xs font-semibold font-[Open_Sans] border ${
+            message.type === 'success' 
+              ? 'bg-green-50 text-green-800 border-green-200' 
+              : 'bg-red-50 text-red-700 border-red-200'
+          }`}>
+            {message.type === 'success' ? (
+              <CheckCircle2 size={18} className="text-green-600 shrink-0" />
+            ) : (
+              <AlertCircle size={18} className="text-red-600 shrink-0" />
+            )}
+            <span>{message.text}</span>
           </div>
+        )}
 
-          {/* Mot de passe provisoire */}
-          <div>
-            <label className="block text-sm font-[Open_Sans] text-gray-700 mb-2">
-              Mot de passe provisoire
-            </label>
-            <div className="relative flex items-center">
-              <input 
-                type={showPassword ? "text" : "password"} 
-                placeholder="••••••••"
-                className="w-full bg-[#f8f9fc] border-none rounded-lg py-3 px-4 text-gray-700 text-sm font-[Open_Sans] placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#ff7a00]/20 transition-all"
-              />
-              <button 
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 text-gray-500 hover:text-gray-700 transition-colors"
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+        {/* Formulaire */}
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-6 max-w-full">
+            
+            {/* 1. Nom d'utilisateur (Username) */}
+            <div>
+              <label className="block text-xs font-bold font-[Open_Sans] text-gray-700 uppercase tracking-wider mb-2">
+                Nom d'utilisateur (Username) *
+              </label>
+              <div className="relative flex items-center">
+                <User size={18} className="absolute left-4 text-gray-400" />
+                <input 
+                  type="text" 
+                  placeholder="ex: admin_restaurant"
+                  value={formData.Username}
+                  onChange={(e) => setFormData({ ...formData, Username: e.target.value })}
+                  className="w-full bg-[#f8f9fc] border border-gray-100 rounded-xl py-3 pl-11 pr-4 text-gray-800 text-sm font-medium placeholder-gray-400 outline-none focus:bg-white focus:ring-2 focus:ring-[#ff7a00]/20 focus:border-[#ff7a00] transition-all"
+                />
+              </div>
             </div>
+
+            {/* 2. Numéro de téléphone (Telephone) */}
+            <div>
+              <label className="block text-xs font-bold font-[Open_Sans] text-gray-700 uppercase tracking-wider mb-2">
+                Numéro de téléphone
+              </label>
+              <div className="relative flex items-center">
+                <Phone size={18} className="absolute left-4 text-gray-400" />
+                <input 
+                  type="tel" 
+                  placeholder="ex: +225 0700000000"
+                  value={formData.Telephone}
+                  onChange={(e) => setFormData({ ...formData, Telephone: e.target.value })}
+                  className="w-full bg-[#f8f9fc] border border-gray-100 rounded-xl py-3 pl-11 pr-4 text-gray-800 text-sm font-medium placeholder-gray-400 outline-none focus:bg-white focus:ring-2 focus:ring-[#ff7a00]/20 focus:border-[#ff7a00] transition-all"
+                />
+              </div>
+            </div>
+
+            {/* 3. Mot de passe provisoire (Password) */}
+            <div>
+              <label className="block text-xs font-bold font-[Open_Sans] text-gray-700 uppercase tracking-wider mb-2">
+                Mot de passe provisoire *
+              </label>
+              <div className="relative flex items-center">
+                <Lock size={18} className="absolute left-4 text-gray-400" />
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="••••••••"
+                  value={formData.Password}
+                  onChange={(e) => setFormData({ ...formData, Password: e.target.value })}
+                  className="w-full bg-[#f8f9fc] border border-gray-100 rounded-xl py-3 pl-11 pr-12 text-gray-800 text-sm font-[Open_Sans] placeholder-gray-400 outline-none focus:bg-white focus:ring-2 focus:ring-[#ff7a00]/20 focus:border-[#ff7a00] transition-all"
+                />
+                <button 
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
           </div>
 
-        </div>
+          {/* Séparateur */}
+          <div className="w-full h-px bg-gray-100 my-8"></div>
 
-        {/* Divider */}
-        <div className="w-full h-px bg-gray-100 my-8"></div>
-
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-6">
-          <button className="text-sm font-[Open_Sans] text-gray-600 hover:text-gray-800 transition-colors">
-            Annuler
-          </button>
-          <button className="px-6 py-2.5 bg-[#a35200] hover:bg-[#8a4400] text-white rounded-lg text-sm font-[Open_Sans] transition-colors shadow-sm">
-            Ajouter un Admi
-          </button>
-        </div>
+          {/* Boutons d'action */}
+          <div className="flex items-center justify-end gap-4">
+            <button 
+              type="button"
+              onClick={() => {
+                setFormData({ Username: '', Password: '', Telephone: '' });
+                setMessage({ type: '', text: '' });
+              }}
+              className="px-5 py-2.5 text-xs font-bold font-[Open_Sans] text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+            >
+              Réinitialiser
+            </button>
+            <button 
+              type="submit"
+              disabled={loading}
+              className="px-6 py-3 bg-[#a35200] hover:bg-[#8a4400] text-white rounded-xl text-xs font-bold font-[Open_Sans] transition-all shadow-sm hover:shadow cursor-pointer disabled:opacity-60"
+            >
+              {loading ? 'Création en cours...' : 'Ajouter l\'Administrateur'}
+            </button>
+          </div>
+        </form>
 
       </div>
     </AdminLayout>

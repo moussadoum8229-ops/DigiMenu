@@ -80,6 +80,53 @@ function CardActions({ price, itemId, name, image, description }) {
   );
 }
 
+// Liste initiale par défaut si localStorage est vide
+const DEFAULT_ITEMS = [
+  { id: "humberger", name: "Humberger", category: "hamburger", price: 3000, image: "./humberger.jpg", description: "Humberger à la viande hachée et au fromage, sauce spéciale." },
+  { id: "cheeseburger", name: "Cheeseburger", category: "hamburger", price: 3000, image: "./Cheeseburger.jpg", description: "Cheeseburger à la viande hachée et au fromage, double sauce." },
+  { id: "burger_poulet", name: "Burger Poulet", category: "hamburger", price: 3000, image: "./Burger-poulet.jpg", description: "Burger au poulet croustillant et sauce maison." },
+  { id: "burger_poisson", name: "Burger Poisson", category: "hamburger", price: 3000, image: "./Berger-poisson.jpg", description: "Burger au poisson et sauce spéciale." },
+
+  { id: "poulet_roti", name: "Poulet Rôti", category: "poulet", price: 4000, image: "./P-4.jpg", description: "Poulet rôti à la sauce spéciale et aux frites." },
+  { id: "poulet_panne", name: "Poulet Pané", category: "poulet", price: 4000, image: "./P-1.jpg", description: "Poulet pané croustillant." },
+  { id: "poulet_braise", name: "Poulet Braisé", category: "poulet", price: 4000, image: "./P-2.jpg", description: "Poulet braisé aux épices." },
+  { id: "poulet_dg", name: "Poulet DG", category: "poulet", price: 4000, image: "./P-3.jpg", description: "Poulet DG à l'aloko." },
+
+  { id: "tacos_boeuf", name: "Tacos Boeuf", category: "tacos", price: 5000, image: "./Tacos.jpg", description: "Tacos Boeuf sauce fromagère." },
+  { id: "tacos_poulet", name: "Tacos Mexicain", category: "tacos", price: 5000, image: "./Tacos-poulet.jpg", description: "Tacos Mexicain au poulet." },
+  { id: "tacos_poisson", name: "Tacos Poisson", category: "tacos", price: 5000, image: "./Tacos-poisson.jpg", description: "Tacos Poisson croustillant." },
+  { id: "tacos_veg", name: "Tacos Végétarien", category: "tacos", price: 5000, image: "./Tacos-V.jpg", description: "Tacos végétarien complet." },
+
+  { id: "steack_boeuf", name: "Steak de Boeuf", category: "viande", price: 6000, image: "./St-1.jpg", description: "Steak de boeuf grillé." },
+  { id: "grillade_mouton", name: "Grillade de Mouton", category: "viande", price: 6000, image: "./St-2.jpg", description: "Grillade de mouton savoureuse." },
+  { id: "cotelettes_agneau", name: "Côtelettes d'Agneau", category: "viande", price: 6000, image: "./St-3.jpg", description: "Côtelettes d'agneau fraîches." },
+  { id: "boulettes_boeuf", name: "Boulettes de Boeuf", category: "viande", price: 6000, image: "./St-4.jpg", description: "Boulettes de boeuf en sauce." },
+
+  { id: "poisson_braise", name: "Poisson Braisé", category: "poisson", price: 7000, image: "./Poisson-braisé.jpg", description: "Poisson braisé entier." },
+  { id: "soupe_poisson", name: "Soupe de Poisson", category: "poisson", price: 7000, image: "./Soupe-de-poisson.jpg", description: "Soupe de poisson riche." },
+  { id: "boulettes_poisson", name: "Boulettes de Poisson", category: "poisson", price: 7000, image: "./Boullete-de-poisson.jpg", description: "Boulettes de poisson maison." },
+  { id: "saumon_grec", name: "Saumon Grec", category: "poisson", price: 7000, image: "./saumon-grec.jpg", description: "Saumon grillé aux herbes." },
+
+  { id: "gateau_chocolat", name: "Gâteau Chocolat", category: "gateau", price: 2000, image: "./Gateau-chocolat.jpg", description: "Gâteau au chocolat intense." },
+  { id: "gateau_framboise", name: "Gâteau Framboise", category: "gateau", price: 2000, image: "./gateau-framboise.jpg", description: "Gâteau aux framboises fraîches." },
+  { id: "gateau_fraise", name: "Gâteau Fraise", category: "gateau", price: 2000, image: "./Gateau-fraise.jpg", description: "Gâteau fondant à la fraise." },
+  { id: "gateau_banane", name: "Gâteau Banane", category: "gateau", price: 2000, image: "./Gateau-banane.jpg", description: "Gâteau moelleux à la banane." },
+
+  { id: "crepe_chocolat", name: "Crêpe au Chocolat", category: "crepe", price: 1500, image: "./Crepe-chocolat.jpg", description: "Crêpe gourmande au chocolat." },
+  { id: "crepe_banane", name: "Crêpe à la Banane", category: "crepe", price: 1500, image: "./Crepe-banane.jpg", description: "Crêpe sucrée à la banane." },
+  { id: "crepe_fraise", name: "Crêpe Chocolat Fraise", category: "crepe", price: 1500, image: "./Crepe-chocolat fraise.jpg", description: "Crêpe nappée de chocolat et fraises." },
+
+  { id: "glace_chocolat", name: "Glace Chocolat", category: "glaces", price: 1500, image: "./Glace-chocolat.jpg", description: "Glace onctueuse au chocolat." },
+  { id: "glace_fraise", name: "Glace Fraise", category: "glaces", price: 1500, image: "./Glace fraise.jpg", description: "Glace rafraîchissante à la fraise." },
+  { id: "glace_caramel", name: "Glace Caramel", category: "glaces", price: 1500, image: "./Glace-caramel.jpg", description: "Glace au caramel beurre salé." },
+  { id: "glace_banane", name: "Glace Banane", category: "glaces", price: 1500, image: "./Glace-banane.jpg", description: "Glace artisanale à la banane." },
+
+  { id: "coca_cola", name: "Coca Cola", category: "boissons", price: 500, image: "./Coca cola.jpg", description: "Canette fraîche de Coca Cola." },
+  { id: "fanta", name: "Fanta", category: "boissons", price: 500, image: "./Fanta.jpg", description: "Canette fraîche de Fanta orange." },
+  { id: "sprite", name: "Sprite", category: "boissons", price: 500, image: "./Sprite.jpg", description: "Canette fraîche de Sprite." },
+  { id: "double7", name: "Double Seven", category: "boissons", price: 500, image: "./Double7.jpg", description: "Boisson énergisante Double Seven." }
+];
+
 export default function Menu() {
   const { getCartCount } = useCart();
   const [loading, setLoading] = useState(true);
@@ -87,23 +134,32 @@ export default function Menu() {
   // États pour la recherche
   const [searchTerm, setSearchTerm] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+  const [menuItems, setMenuItems] = useState([]);
 
-  // Prix d'origine
-  const [humberger, setHumberger] = useState(3000);
-  const [poulet, setPoulet] = useState(4000);
-  const [tacos, setTacos] = useState(5000);
-  const [viande, setViande] = useState(6000);
-  const [poisson, setPoisson] = useState(7000);
-  const [crepe, setCrepe] = useState(1500);
-  const [gateau, setGateau] = useState(2000);
-  const [boisson, setBoisson] = useState(500);
-
+  // 1. Gestion du loader
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 800);
     return () => clearTimeout(timer);
   }, []);
+
+  // 2. Charger les plats depuis localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('digimenu_items');
+    if (saved) {
+      try {
+        setMenuItems(JSON.parse(saved));
+      } catch (e) {
+        setMenuItems(DEFAULT_ITEMS);
+      }
+    } else {
+      setMenuItems(DEFAULT_ITEMS);
+      localStorage.setItem('digimenu_items', JSON.stringify(DEFAULT_ITEMS));
+    }
+  }, []);
+
+  // Écran de chargement (après déclaration de TOUS les hooks)
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -114,385 +170,44 @@ export default function Menu() {
     );
   }
 
-  // Définition dynamique des catégories du menu
-  const menuCategories = [
-    {
-      id: 'hamburger',
-      title: 'Menu Burger',
-      keywords: ["humberger", "cheeseburger", "cheeseberger", "humberger au fromage", "humburger au poisson", "viande hachée", "fromage", "sauce especiale"],
-      items: [
-        {
-          id: "humberger",
-          name: "Humberger",
-          image: "./humberger.jpg",
-          description: "humberger a la viande hachée et au fromage , une sauce especiale.",
-          price: humberger,
-          keywords: ["humberger", "viande hachée et au fromage", "sauce especiale"]
-        },
-        {
-          id: "cheeseberger",
-          name: "cheeseberger",
-          image: "./Cheeseburger.jpg",
-          description: "cheeseburger a la viande hachée et au fromage , une sauce especiale.",
-          price: humberger,
-          keywords: ["cheeseburger", "cheeseberger", "viande hachée et au fromage", "sauce especiale"]
-        },
-        {
-          id: "humberger_au_fromage",
-          name: "humberger au Fromage",
-          image: "./Burger-poulet.jpg",
-          description: "humberger au fromage une sauce especiale.",
-          price: humberger,
-          keywords: ["humberger au fromage", "fromage", "sauce especiale"]
-        },
-        {
-          id: "humburger_au_poisson",
-          name: "humburger au poisson",
-          image: "./Berger-poisson.jpg",
-          description: "humberger au poisson une sauce especiale.",
-          price: "3000",
-          keywords: ["humburger au poisson", "poisson", "sauce especiale"]
-        }
-      ]
-    },
-    {
-      id: 'poulet',
-      title: 'Menu Poulet',
-      keywords: ["poulet", "roti", "panné", "braiser", "dg", "aloko", "frites"],
-      items: [
-        {
-          id: "poulet_roti",
-          name: "Poulet roti",
-          image: "./P-4.jpg",
-          description: "Poulet roti a la sauce especiale et au frites.",
-          price: poulet,
-          keywords: ["poulet roti", "sauce especiale", "frites"]
-        },
-        {
-          id: "poulet_panne",
-          name: "Poulet panné",
-          image: "./P-1.jpg",
-          description: "Poulet panné .",
-          price: poulet,
-          keywords: ["poulet panné", "panné"]
-        },
-        {
-          id: "poulet_braiser",
-          name: "Poulet braiser",
-          image: "./P-2.jpg",
-          description: "Poulet braiser.",
-          price: poulet,
-          keywords: ["poulet braiser", "braiser"]
-        },
-        {
-          id: "poulet_dg",
-          name: "Poulet DG",
-          image: "./P-3.jpg",
-          description: "Poulet DG a l'aloko.",
-          price: poulet,
-          keywords: ["poulet dg", "aloko"]
-        }
-      ]
-    },
-    {
-      id: 'tacos',
-      title: 'Menu Tacos',
-      keywords: ["tacos", "boeuf", "mexicain", "poisson", "vegetarien"],
-      items: [
-        {
-          id: "tacos_boeuf",
-          name: "Tacos Boeuf",
-          image: "./Tacos.jpg",
-          description: "Tacos Boeuf.",
-          price: tacos,
-          keywords: ["tacos boeuf", "boeuf"]
-        },
-        {
-          id: "tacos_mexicain",
-          name: "Tacos Mexicain",
-          image: "./Tacos-poulet.jpg",
-          description: "Tacos Mexicain .",
-          price: tacos,
-          keywords: ["tacos mexicain", "mexicain"]
-        },
-        {
-          id: "tacos_poisson",
-          name: "Tacos Poisson",
-          image: "./Tacos-poisson.jpg",
-          description: "Tacos Poisson.",
-          price: tacos,
-          keywords: ["tacos poisson", "poisson"]
-        },
-        {
-          id: "tacos_vegetarien",
-          name: "Tacos Vegetarien",
-          image: "./Tacos-V.jpg",
-          description: "Tacos  vegetarien.",
-          price: tacos,
-          keywords: ["tacos vegetarien", "vegetarien"]
-        }
-      ]
-    },
-    {
-      id: 'viande',
-      title: 'Menu Viande',
-      keywords: ["viande", "steack", "boeuf", "grillade", "mouton", "côtelettes", "agneau", "boullete"],
-      items: [
-        {
-          id: "steack_de_boeuf",
-          name: "Steack de boeuf",
-          image: "./St-1.jpg",
-          description: "Steack de boeuf.",
-          price: viande,
-          keywords: ["steack de boeuf", "steack"]
-        },
-        {
-          id: "grillade_de_mouton",
-          name: "Grillade de mouton",
-          image: "./St-2.jpg",
-          description: "Grillade de mouton.",
-          price: viande,
-          keywords: ["grillade de mouton", "grillade"]
-        },
-        {
-          id: "cotelettes_d_agneau",
-          name: "Côtelettes d'agneau",
-          image: "./St-3.jpg",
-          description: "Côtelettes d'agneau.",
-          price: viande,
-          keywords: ["côtelettes d'agneau", "côtelettes", "agneau"]
-        },
-        {
-          id: "boullete_de_boeuf",
-          name: "Boullete de boeuf",
-          image: "./St-4.jpg",
-          description: "Boullete de boeuf.",
-          price: viande,
-          keywords: ["boullete de boeuf", "boullete", "boulette"]
-        }
-      ]
-    },
-    {
-      id: 'poisson',
-      title: 'Menu Poisson',
-      keywords: ["poisson", "braisé", "soupe", "boullete", "saumon", "grec"],
-      items: [
-        {
-          id: "poisson_braise",
-          name: "Poisson braisé",
-          image: "./Poisson-braisé.jpg",
-          description: "Poisson braisé.",
-          price: poisson,
-          keywords: ["poisson braisé", "braisé"]
-        },
-        {
-          id: "soupe_de_poisson",
-          name: "Soupe de poisson",
-          image: "./Soupe-de-poisson.jpg",
-          description: "Soupe de poisson.",
-          price: poisson,
-          keywords: ["soupe de poisson", "soupe"]
-        },
-        {
-          id: "boullete_de_poisson",
-          name: "Boullete de poisson",
-          image: "./Boullete-de-poisson.jpg",
-          description: "Boullete de poisson.",
-          price: poisson,
-          keywords: ["boullete de poisson", "boullete", "boulette"]
-        },
-        {
-          id: "saumon_grec",
-          name: "Saumon grec",
-          image: "./saumon-grec.jpg",
-          description: "Saumon grec.",
-          price: poisson,
-          keywords: ["saumon grec", "saumon"]
-        }
-      ]
-    },
-    {
-      id: 'gateau',
-      title: 'Menu Gateau',
-      keywords: ["gateau", "chocolat", "framboise", "fraise", "banane"],
-      items: [
-        {
-          id: "gateau_chocolat",
-          name: "Gateau chocolat",
-          image: "./Gateau-chocolat.jpg",
-          description: "Gateau chocolat.",
-          price: gateau,
-          keywords: ["gateau chocolat", "chocolat"]
-        },
-        {
-          id: "gateau_framboise",
-          name: "Gateau Framboise",
-          image: "./gateau-framboise.jpg",
-          description: "Gateau Framboise.",
-          price: gateau,
-          keywords: ["gateau framboise", "framboise"]
-        },
-        {
-          id: "gateau_fraise",
-          name: "Gateau-fraise",
-          image: "./Gateau-fraise.jpg",
-          description: "Gateau-fraise.",
-          price: gateau,
-          keywords: ["gateau-fraise", "fraise"]
-        },
-        {
-          id: "gateau_a_la_banane",
-          name: "Gateau a la banane",
-          image: "./Gateau-banane.jpg",
-          description: "Gateau a la banane.",
-          price: gateau,
-          keywords: ["gateau a la banane", "banane"]
-        }
-      ]
-    },
-    {
-      id: 'crepe',
-      title: 'Menu Crepes',
-      keywords: ["crepe", "crèpe", "chocolat", "banane", "fraise", "saumon", "grec"],
-      items: [
-        {
-          id: "crepe_au_chocolat",
-          name: "Crèpe au chocolat",
-          image: "./Crepe-chocolat.jpg",
-          description: "Crèpe au chocolat.",
-          price: crepe,
-          keywords: ["crèpe au chocolat", "crepe", "chocolat"]
-        },
-        {
-          id: "crepe_a_la_banane",
-          name: "Crèpe à la banane",
-          image: "./Crepe-banane.jpg",
-          description: "Crèpe à la banane.",
-          price: crepe,
-          keywords: ["crèpe à la banane", "banane"]
-        },
-        {
-          id: "crepe_au_chocolat_fraise",
-          name: "Crèpe au chocolat fraise",
-          image: "./Crepe-chocolat fraise.jpg",
-          description: "Crèpe au chocolat fraise.",
-          price: crepe,
-          keywords: ["crèpe au chocolat fraise", "chocolat", "fraise"]
-        },
-        {
-          id: "saumon_grec_crepe",
-          name: "Saumon grec",
-          image: "./saumon-grec.jpg",
-          description: "Saumon grec.",
-          price: crepe,
-          keywords: ["saumon grec", "saumon"]
-        }
-      ]
-    },
-    {
-      id: 'glaces',
-      title: 'Menu Glaces',
-      keywords: ["glace", "glaces", "chocolat", "fraise", "caramel", "banane"],
-      items: [
-        {
-          id: "glace_chocolat",
-          name: "Glace chocolat",
-          image: "./Glace-chocolat.jpg",
-          description: "Glace chocolat.",
-          price: crepe,
-          keywords: ["glace chocolat", "chocolat"]
-        },
-        {
-          id: "glace_fraise",
-          name: "Glace fraise",
-          image: "./Glace fraise.jpg",
-          description: "Glace fraise.",
-          price: crepe,
-          keywords: ["glace fraise", "fraise"]
-        },
-        {
-          id: "glace_caramel",
-          name: "Glace caramel",
-          image: "./Glace-caramel.jpg",
-          description: "Glace caramel.",
-          price: crepe,
-          keywords: ["glace caramel", "caramel"]
-        },
-        {
-          id: "glace_a_la_banane",
-          name: "Glace a la banane",
-          image: "./Glace-banane.jpg",
-          description: "Glace a la banane.",
-          price: crepe,
-          keywords: ["glace a la banane", "banane"]
-        }
-      ]
-    },
-    {
-      id: 'Boissons',
-      title: 'Menu Boissons',
-      keywords: ["boisson", "boissons", "coca", "cola", "fanta", "sprite", "double", "seven"],
-      items: [
-        {
-          id: "coca_cola",
-          name: "Coca cola",
-          image: "./Coca cola.jpg",
-          description: "Coca cola.",
-          price: crepe,
-          keywords: ["coca cola", "coca", "cola"]
-        },
-        {
-          id: "fanta",
-          name: "Fanta",
-          image: "./Fanta.jpg",
-          description: "Fanta.",
-          price: crepe,
-          keywords: ["fanta"]
-        },
-        {
-          id: "sprite",
-          name: "Sprite",
-          image: "./Sprite.jpg",
-          description: "Sprite.",
-          price: crepe,
-          keywords: ["sprite"]
-        },
-        {
-          id: "double_seven",
-          name: "Double Seven",
-          image: "./Double7.jpg",
-          description: "Double Seven Petit - Moyen - Grand",
-          price: crepe,
-          keywords: ["double seven", "double7"]
-        }
-      ]
-    }
-  ];
+  // ==========================================
+  // CONFIGURATION DES CATÉGORIES DE BASE
+  // ==========================================
+  const CATEGORY_META = {
+    hamburger: { title: 'Menu Burger', keywords: ["humberger", "cheeseburger", "burger"] },
+    poulet: { title: 'Menu Poulet', keywords: ["poulet", "roti", "pané", "braisé", "dg", "aloko"] },
+    tacos: { title: 'Menu Tacos', keywords: ["tacos", "boeuf", "mexicain", "poisson", "vegetarien"] },
+    viande: { title: 'Menu Viande', keywords: ["viande", "steack", "steak", "boeuf", "grillade", "mouton", "cotelettes", "agneau", "boulette"] },
+    poisson: { title: 'Menu Poisson', keywords: ["poisson", "braisé", "soupe", "boulette", "saumon", "grec"] },
+    gateau: { title: 'Menu Gâteau', keywords: ["gateau", "chocolat", "framboise", "fraise", "banane"] },
+    crepe: { title: 'Menu Crêpes', keywords: ["crepe", "crèpe", "chocolat", "banane", "fraise"] },
+    glaces: { title: 'Menu Glaces', keywords: ["glace", "glaces", "chocolat", "fraise", "caramel", "banane"] },
+    boissons: { title: 'Menu Boissons', keywords: ["boisson", "boissons", "coca", "fanta", "sprite", "double", "seven"] }
+  };
 
-
-  // Liste de tous les mots clés pour vérifier globalement si aucun plat n'est trouvé
-  const allKeywords = [
-    // Burgers
-    "humberger", "cheeseburger", "cheeseberger", "humberger au fromage", "humburger au poisson",
-    // Poulet
-    "poulet roti", "poulet panné", "poulet braiser", "poulet dg", "aloko", "roti", "braisé",
-    // Tacos
-    "tacos boeuf", "tacos mexicain", "tacos poisson", "tacos vegetarien",
-    // Viande
-    "steack de boeuf", "grillade de mouton", "côtelettes d'agneau", "boullete de boeuf",
-    // Poisson
-    "poisson braisé", "soupe de poisson", "boullete de poisson", "saumon grec",
-    // Gateau
-    "gateau chocolat", "gateau framboise", "gateau-fraise", "gateau a la banane",
-    // Crepes
-    "crèpe au chocolat", "crèpe à la banane", "crèpe au chocolat fraise",
-    // Glaces
-    "glace chocolat", "glace fraise", "glace caramel", "glace a la banane",
-    // Boissons
-    "coca cola", "fanta", "sprite", "double seven"
-  ];
-
-  const hasResults = !searchTerm || allKeywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()));
+  // Construction dynamique des catégories basées sur menuItems
+  const categoryKeys = Object.keys(CATEGORY_META);
+  const menuCategories = categoryKeys.map(catKey => {
+    const meta = CATEGORY_META[catKey];
+    const itemsInCat = menuItems.filter(item => item.category === catKey);
+    
+    return {
+      id: catKey,
+      title: meta.title,
+      keywords: [...meta.keywords, ...itemsInCat.map(i => i.name.toLowerCase())],
+      items: itemsInCat.map(item => ({
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        description: item.description,
+        price: item.price,
+        keywords: [item.name.toLowerCase(), ...(item.description ? item.description.toLowerCase().split(' ') : [])]
+      }))
+    };
+  }).filter(cat => cat.items.length > 0); // On n'affiche que les catégories qui ont au moins 1 plat disponible
+  // Mots-clés calculés dynamiquement sur la base des plats existants
+  const allKeywords = menuItems.map(item => item.name.toLowerCase());
+  const hasResults = !searchTerm || allKeywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase().trim()));
 
   return (
     <div className="min-h-screen bg-gray-50 font-[Open_Sans]">
@@ -609,67 +324,89 @@ export default function Menu() {
       )}
 
       {/* Rendu dynamique des sections du Menu */}
-      {hasResults && menuCategories.map((category) => {
-        // Vérifie si la catégorie correspond au terme de recherche
-        const showCategory = category.keywords.some(keyword => 
-          keyword.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-12">
+        {hasResults && menuCategories.map((category) => {
+          // Vérifie si la catégorie correspond au terme de recherche
+          const showCategory = category.keywords.some(keyword => 
+            keyword.toLowerCase().includes(searchTerm.toLowerCase().trim())
+          );
 
-        if (!showCategory) return null;
+          if (!showCategory) return null;
 
-        return (
-          <div 
-            key={category.id} 
-            id={category.id} 
-            className={category.id === 'hamburger' ? 'ml-15' : 'timeline-view ml-15 animate-blurred-fade-in animate-range-[entry_10%_contain_30%]'}
-          >
-            <div className="mb-8 ml-3 mt-6">
-              <div className="flex flex-col">
-                <h2 className="text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
-                  <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
-                    {category.title}
-                  </span>
-                </h2>
-                <div className="h-1.5 w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
+          return (
+            <section 
+              key={category.id} 
+              id={category.id} 
+              className="scroll-mt-24 animate-fade-in"
+            >
+              {/* Titre de la catégorie avec indicateur stylisé */}
+              <div className="mb-6 sm:mb-8">
+                <div className="flex flex-col">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-800 flex items-baseline gap-3">
+                    <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-500">
+                      {category.title}
+                    </span>
+                  </h2>
+                  <div className="h-1.5 w-14 sm:w-16 bg-orange-500 rounded-full mt-2 opacity-80"></div>
+                </div>
               </div>
-            </div>
-            
-            <div className="grid grid-cols-4 gap-4">
-              {category.items.map((item) => {
-                // Vérifie si l'item correspond au terme de recherche
-                const showItem = item.keywords.some(k => 
-                  k.toLowerCase().includes(searchTerm.toLowerCase())
-                );
+              
+              {/* Grille responsive : 1 col sur mobile, 2 sur tablette, 3 sur écran moyen, 4 sur desktop */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-7">
+                {category.items.map((item) => {
+                  // Vérifie si l'item correspond au terme de recherche
+                  const showItem = item.keywords.some(k => 
+                    k.toLowerCase().includes(searchTerm.toLowerCase().trim())
+                  );
 
-                if (!showItem) return null;
+                  if (!showItem) return null;
 
-                return (
-                  <div key={item.id}>
-                    <div className="card bg-base-100 w-80 h-110 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                      <figure>
-                        <img src={item.image} alt={item.name} />
-                      </figure>
-                      <div className="card-body">
-                        <h2 className="card-title">
-                          {item.name}
-                        </h2>
-                        <p>{item.description}</p>
-                        <CardActions 
-                          price={item.price} 
-                          itemId={item.id}
-                          name={item.name}
-                          image={item.image}
-                          description={item.description}
-                        />
+                  return (
+                    <div key={item.id} className="flex justify-center">
+                      <div className="card bg-base-100 w-full max-w-sm sm:max-w-none shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 rounded-3xl overflow-hidden border border-gray-100 flex flex-col justify-between">
+                        {/* Image responsive */}
+                        <figure className="relative h-48 sm:h-52 w-full overflow-hidden bg-gray-100">
+                          <img 
+                            src={item.image} 
+                            alt={item.name} 
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&auto=format&fit=crop&q=80";
+                            }}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          />
+                        </figure>
+                        
+                        {/* Contenu et actions */}
+                        <div className="card-body p-4 sm:p-5 flex flex-col justify-between flex-1">
+                          <div>
+                            <h2 className="card-title text-base sm:text-lg font-bold text-gray-900 line-clamp-1">
+                              {item.name}
+                            </h2>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1 line-clamp-2 leading-relaxed">
+                              {item.description}
+                            </p>
+                          </div>
+                          
+                          <div className="mt-3 pt-2 border-t border-gray-50">
+                            <CardActions 
+                              price={item.price} 
+                              itemId={item.id}
+                              name={item.name}
+                              image={item.image}
+                              description={item.description}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </div>
       
     </div>
   );
