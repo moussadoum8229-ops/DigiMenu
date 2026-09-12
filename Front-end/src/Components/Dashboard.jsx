@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 import AdminLayout from './AdminLayout';
 import { 
   Banknote, 
@@ -50,11 +51,11 @@ export default function Dashboard() {
     setLoadingStats(true);
     try {
       // 1. Récupérer les statistiques calculées par le backend
-      const statsRes = await axios.get('http://localhost:5000/api/dashboard/stats');
+      const statsRes = await axios.get(`${API_BASE_URL}/api/dashboard/stats`);
       setStats(statsRes.data);
 
       // 2. Récupérer la liste des commandes récentes pour permettre la gestion et annulation
-      const ordersRes = await axios.get('http://localhost:5000/api/orders/all');
+      const ordersRes = await axios.get(`${API_BASE_URL}/api/orders/all`);
       if (Array.isArray(ordersRes.data)) {
         setRecentOrders(ordersRes.data);
       }
@@ -80,7 +81,7 @@ export default function Dashboard() {
   const handleCancelOrder = async (orderId) => {
     setCancellingId(orderId);
     try {
-      const response = await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const response = await axios.put(`${API_BASE_URL}/api/orders/${orderId}/status`, {
         statut_commande: 'annulee'
       });
 

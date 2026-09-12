@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 import AdminLayout from './AdminLayout';
 import { UserPlus, UserSquare2, Phone, Key, PlusCircle, Eye, EyeOff, CheckCircle2, AlertCircle } from 'lucide-react';
 
@@ -24,7 +25,7 @@ export default function Cuisiniers_D() {
   // 1. Splash loader initial et récupération du nombre de cuisiniers
   const fetchCuisiniers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Auth/cuisiniers');
+      const response = await axios.get(`${API_BASE_URL}/Auth/cuisiniers`);
       if (Array.isArray(response.data)) {
         setCuisiniersCount(response.data.length);
       }
@@ -60,7 +61,7 @@ export default function Cuisiniers_D() {
 
     try {
       // Appel API vers le contrôleur AddCuisinier
-      const response = await axios.post('http://localhost:5000/Auth/add-cuisinier', {
+      const response = await axios.post(`${API_BASE_URL}/Auth/add-cuisinier`, {
         Username: formData.Username.trim(),
         Telephone: formData.Telephone ? formData.Telephone.trim() : null,
         Password: formData.Password

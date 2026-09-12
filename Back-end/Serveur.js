@@ -7,8 +7,21 @@ dotenv.config();
 // Connexion à la base de données
 require("./Databases/Data");
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+        // En mode production, autoriser l'origine configurée ou toutes les origines Vercel/Railway si non définie
+        if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production' || !process.env.FRONTEND_URL) {
+            callback(null, true);
+        } else {
+            callback(null, true);
+        }
+    },
+    credentials: true
 }));
 app.use(express.json());
 

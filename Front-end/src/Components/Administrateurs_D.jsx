@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 import AdminLayout from './AdminLayout';
 import { UserPlus, Eye, EyeOff, CheckCircle2, AlertCircle, Phone, Lock, User } from 'lucide-react';
 
@@ -47,7 +48,7 @@ export default function Add_Administrateurs() {
 
     try {
       // Appel API vers le contrôleur AddAdministrateur
-      const response = await axios.post('http://localhost:5000/Auth/add-admin', {
+      const response = await axios.post(`${API_BASE_URL}/Auth/add-admin`, {
         Username: formData.Username.trim(),
         Password: formData.Password,
         Telephone: formData.Telephone ? formData.Telephone.trim() : null

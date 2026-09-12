@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 import AdminLayout from './AdminLayout';
 import { 
   Receipt,
@@ -46,7 +47,7 @@ export default function Commandes_D() {
     setLoadingOrders(true);
     try {
       // Appel de l'API backend pour obtenir toutes les commandes avec leurs détails
-      const response = await axios.get('http://localhost:5000/api/orders/all');
+      const response = await axios.get(`${API_BASE_URL}/api/orders/all`);
       if (Array.isArray(response.data)) {
         setOrders(response.data);
       }
@@ -70,7 +71,7 @@ export default function Commandes_D() {
   const handleUpdateStatus = async (orderId, newStatus) => {
     setUpdatingId(orderId);
     try {
-      const response = await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const response = await axios.put(`${API_BASE_URL}/api/orders/${orderId}/status`, {
         statut_commande: newStatus
       });
       if (response.status === 200) {

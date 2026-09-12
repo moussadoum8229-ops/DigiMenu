@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
+import { API_BASE_URL } from '../config/api';
 
 export default function Commande() {
   const { cart, addToCart, removeFromCart, clearCart, getCartCount, getCartTotal } = useCart();
@@ -39,7 +40,7 @@ export default function Commande() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch(`${API_BASE_URL}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

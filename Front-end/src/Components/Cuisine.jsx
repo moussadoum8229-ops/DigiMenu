@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { API_BASE_URL } from '../config/api';
 
 // Dictionnaire de correspondance entre les noms de plats et leurs images réelles (dossier public)
 const getDishImage = (name) => {
@@ -116,7 +117,7 @@ export default function Cuisine() {
     if (!silent) setLoading(true);
     setIsRefreshing(true);
     try {
-      const response = await fetch('http://localhost:5000/api/orders');
+      const response = await fetch(`${API_BASE_URL}/api/orders`);
       if (response.ok) {
         const data = await response.json();
         setOrders(data);
@@ -144,7 +145,7 @@ export default function Cuisine() {
   // Marquer une commande comme prête
   const handleMarkAsReady = async (orderId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${orderId}/ready`, {
+      const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}/ready`, {
         method: 'PUT',
       });
 
